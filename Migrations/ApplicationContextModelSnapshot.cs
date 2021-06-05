@@ -19,7 +19,7 @@ namespace FoodService.Migrations
                 .HasAnnotation("ProductVersion", "5.0.5")
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-            modelBuilder.Entity("FoodService.Models.DbEntities.Group", b =>
+            modelBuilder.Entity("FoodService.Models.DbEntities.Role", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -37,7 +37,7 @@ namespace FoodService.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Groups");
+                    b.ToTable("Roles");
                 });
 
             modelBuilder.Entity("FoodService.Models.DbEntities.User", b =>
@@ -50,9 +50,6 @@ namespace FoodService.Migrations
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("text");
-
-                    b.Property<int?>("GroupId")
-                        .HasColumnType("integer");
 
                     b.Property<string>("Login")
                         .IsRequired()
@@ -71,23 +68,26 @@ namespace FoodService.Migrations
                     b.Property<DateTime>("RegisterDate")
                         .HasColumnType("timestamp without time zone");
 
+                    b.Property<int?>("RoleId")
+                        .HasColumnType("integer");
+
                     b.Property<string>("Surname")
                         .HasColumnType("text");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("GroupId");
+                    b.HasIndex("RoleId");
 
                     b.ToTable("Users");
                 });
 
             modelBuilder.Entity("FoodService.Models.DbEntities.User", b =>
                 {
-                    b.HasOne("FoodService.Models.DbEntities.Group", "Group")
+                    b.HasOne("FoodService.Models.DbEntities.Role", "Role")
                         .WithMany()
-                        .HasForeignKey("GroupId");
+                        .HasForeignKey("RoleId");
 
-                    b.Navigation("Group");
+                    b.Navigation("Role");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,5 +1,6 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Food Service";
+    Layout = User.Identity.IsAuthenticated ? "_AuthLayout" : "_Layout";
 }
 
 <div class="text-center">

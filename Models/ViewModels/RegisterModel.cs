@@ -4,24 +4,20 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace FoodService.Models.Dto
+namespace FoodService.Models.ViewModels
 {
-    public class RegisterDto
+    public class RegisterModel
     {
-        [Required]
-        [Display(Name = "Login")]
+        [Required(ErrorMessage = "Введите логин")]
         public string Login { get; set; }
-        [Required]
-        [Display(Name = "Email")]
+        [Required(ErrorMessage = "Введите email")]
         public string Email { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Введите пароль")]
         [DataType(DataType.Password)]
-        [Display(Name = "Пароль")]
         public string Password { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Повторите пароль")]
         [Compare("Password", ErrorMessage = "Пароли не совпадают")]
         [DataType(DataType.Password)]
-        [Display(Name = "Подтвердить пароль")]
         public string PasswordConfirm { get; set; }
     }
 }
