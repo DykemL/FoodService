@@ -1,5 +1,6 @@
 ﻿using FoodService.Models;
 using FoodService.Models.DbEntities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -12,18 +13,18 @@ namespace FoodService.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ApplicationContext context;
+        private readonly AppDbContext context;
 
-        public HomeController(ApplicationContext context)
+        public HomeController(AppDbContext context)
         {
             this.context = context;
         }
-        
+
         public IActionResult Index()
         {
             return View();
         }
-
+        [Authorize(Roles = "user")]
         public IActionResult Privacy()
         {
             return View();

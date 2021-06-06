@@ -1,4 +1,5 @@
 ﻿using FoodService.Models.DbEntities;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -8,11 +9,9 @@ using System.Threading.Tasks;
 
 namespace FoodService.Models
 {
-    public class ApplicationContext : DbContext
+    public class AppDbContext : IdentityDbContext<AppUser>
     {
-        public DbSet<User> Users { get; set; }
-        public DbSet<Role> Roles { get; set; }
-        public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options)
+        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
             //Database.EnsureCreated();
         }

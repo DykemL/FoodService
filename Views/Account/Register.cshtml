@@ -2,11 +2,9 @@
 <link rel="stylesheet" href="~/css/account.css" />
 <div class="d-flex justify-content-center">
     <div class="col-lg-6">
-        @if(ViewBag.IsValidationErrors)
+        @if (ViewData.ModelState.Count > 0)
         {
-            <div class="alert alert-danger">
-                @Html.ValidationSummary()
-            </div>
+            @Html.ValidationSummary(false, "", new { @class = "alert alert-danger" })
         }
         <form asp-controller="Account" asp-action="Register" method="post">
             <div class="form-group">

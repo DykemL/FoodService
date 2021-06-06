@@ -1,4 +1,5 @@
 ﻿using FoodService.Models;
+using FoodService.Models.DbEntities;
 using FoodService.Models.ViewModels;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -14,20 +15,45 @@ namespace FoodService.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly ApplicationContext context;
-        public AccountController(ApplicationContext context)
+        private readonly UserManager<AppUser> userManager;
+        private readonly RoleManager<IdentityRole> roleManager;
+        private readonly SignInManager<AppUser> signInManager;
+
+        public AccountController(UserManager<AppUser> userManager, 
+            RoleManager<IdentityRole> roleManager, 
+            SignInManager<AppUser> signInManager)
         {
-            this.context = context;
+            this.userManager = userManager;
+            this.roleManager = roleManager;
+            this.signInManager = signInManager;
         }
+        [HttpGet]
         public IActionResult Login()
         {
-            
             return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> Login(LoginModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                //AppUser user = new() { UserName = model.Login };
+                //var result = await signInManager.PasswordSignInAsync(user, model.Password, false, false);
+                var result = await signInManager.PasswordSignInAsync(model.Login, model.Password, false, false);
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Неверный логин или пароль");
+                }
+            }
+            return View(model);
         }
         [HttpGet]
         public IActionResult Register()
         {
-            ViewBag.IsValidationErrors = false;
             return View();
         }
         [HttpPost]
@@ -35,25 +61,22 @@ namespace FoodService.Controllers
         {
             if (ModelState.IsValid)
             {
-                await Authenticate(model.Login);
+                AppUser user = new(model.Login) { Email = model.Email };
+                await userManager.CreateAsync(user, model.Password);
+                await userManager.AddToRoleAsync(user, "User");
+                await signInManager.SignInAsync(user, true);
                 return RedirectToAction("Index", "Home");
-            }
-            else
-            {
-                ViewBag.IsValidationErrors = true;
             }
             return View(model);
         }
-
-        private async Task Authenticate(string userName)
+        public IActionResult AccessDenied()
         {
-            var claims = new List<Claim>
-            {
-                new Claim(ClaimsIdentity.DefaultNameClaimType, userName)
-            };
-            ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", 
-                ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
-            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
+            return View();
+        }
+        public async Task<IActionResult> Logout()
+        {
+            await signInManager.SignOutAsync();
+            return RedirectToAction("Index", "Home");
         }
     }
 }

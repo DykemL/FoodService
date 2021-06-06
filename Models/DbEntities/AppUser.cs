@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -7,12 +8,15 @@ using System.Threading.Tasks;
 
 namespace FoodService.Models.DbEntities
 {
-    public class Role
+    public class AppUser : IdentityUser
     {
-        [Key]
-        public int Id { get; set; }
-        public string Title { get; set; }
-        public string Description { get; set; }
-        public string TitleLocaled { get; set; }
+        public AppUser()
+        {
+
+        }
+        public AppUser(string userName) : base(userName)
+        {
+
+        }
     }
 }

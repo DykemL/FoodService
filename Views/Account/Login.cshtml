@@ -1,21 +1,19 @@
 ﻿@model FoodService.Models.ViewModels.LoginModel
 <link rel="stylesheet" href="~/css/account.css" />
-@if (ViewBag.IsValidationErrors)
-{
-    <div class="alert alert-danger">
-        @Html.ValidationSummary()
-    </div>
-}
 <div class="d-flex justify-content-center">
     <div class="col-lg-6">
-        <form>
+        @if (ViewData.ModelState.Count > 0)
+        {
+            @Html.ValidationSummary(false, "", new { @class = "alert alert-danger" })
+        }
+        <form asp-controller="Account" asp-action="Login" method="post">
             <div class="form-group">
                 <label for="login">Логин</label>
-                <input type="text" class="form-control" id="login" name="login">
+                <input type="text" class="form-control" id="login" name="login" asp-for="@Model.Login">
             </div>
             <div class="form-group">
                 <label for="password">Пароль</label>
-                <input type="password" class="form-control" id="password" name="password">
+                <input type="password" class="form-control" id="password" name="password" asp-for="@Model.Password">
             </div>
             <button type="submit" class="btn btn-primary">Войти</button>
         </form>
