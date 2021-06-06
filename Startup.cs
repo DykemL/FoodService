@@ -36,20 +36,15 @@ namespace FoodService
                 options.LoginPath = new PathString("/Account/Login");
                 options.AccessDeniedPath = new PathString("/Account/AccessDenied");
             });
-            services.AddIdentity<AppUser, IdentityRole>(options => {
-                options.SignIn.RequireConfirmedAccount = true;
+            services.AddIdentity<AppUser, IdentityRole>(options =>
+            {
                 options.Password.RequireDigit = false;
                 options.Password.RequireLowercase = false;
                 options.Password.RequireUppercase = false;
                 options.Password.RequiredLength = 0;
                 options.Password.RequireNonAlphanumeric = false;
-
-                options.SignIn.RequireConfirmedAccount = false;
-                options.SignIn.RequireConfirmedEmail = false;
-                options.SignIn.RequireConfirmedPhoneNumber = false;
             })
-                .AddEntityFrameworkStores<AppDbContext>()
-                .AddSignInManager<SignInManager<AppUser>>();
+                .AddEntityFrameworkStores<AppDbContext>();
 
             services.AddControllersWithViews();
         }
