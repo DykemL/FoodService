@@ -22,7 +22,7 @@
                     <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                         <ul class="navbar-nav flex-grow-1 mr-auto">
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">О нас</a>
                             </li>
                         </ul>
                         <ul class="navbar-nav">
@@ -33,6 +33,10 @@
                                 </button>
                                 <div class="dropdown-menu dropdown-menu-lg-right" aria-labelledby="dropdownMenuButton">
                                     <a class="dropdown-item" href="#">Профиль</a>
+                                    @if (User.IsInRole("Admin"))
+                                    {
+                                        <a class="dropdown-item" asp-controller="Admin" asp-action="Users">Панель администратора</a>
+                                    }
                                     <a class="dropdown-item" asp-controller="Account" asp-action="Logout">Выйти</a>
                                 </div>
                             </li>
@@ -55,12 +59,12 @@
                     <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                         <ul class="navbar-nav flex-grow-1 mr-auto">
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">О Нас</a>
                             </li>
                         </ul>
                         <div class="navbar-nav">
                             <a class="btn btn-primary mr-sm-2" asp-controller="Account" asp-action="Register">Регистрация</a>
-                            <a class="btn btn-primary" asp-controller="Account" asp-action="Login">Авторизация</a>
+                            <a class="btn btn-primary" asp-controller="Account" asp-action="Login">Войти</a>
                         </div>
                     </div>
                 </div>
@@ -75,7 +79,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2021 - FoodService - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2021 - FoodService - <a asp-area="" asp-controller="Home" asp-action="Privacy">О нас</a>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

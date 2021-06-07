@@ -15,13 +15,13 @@ namespace FoodService.Models
         {
             string adminEmail = "admin@foodservice.com";
             string password = "admin";
-            if (await roleManager.FindByNameAsync("admin") == null)
+            if (await roleManager.FindByNameAsync("User") == null)
             {
-                await roleManager.CreateAsync(new IdentityRole("admin"));
+                await roleManager.CreateAsync(new IdentityRole("User"));
             }
-            if (await roleManager.FindByNameAsync("user") == null)
+            if (await roleManager.FindByNameAsync("Admin") == null)
             {
-                await roleManager.CreateAsync(new IdentityRole("user"));
+                await roleManager.CreateAsync(new IdentityRole("Admin"));
             }
             if (await userManager.FindByNameAsync("Admin") == null)
             {
@@ -29,8 +29,7 @@ namespace FoodService.Models
                 IdentityResult result = await userManager.CreateAsync(admin, password);
                 if (result.Succeeded)
                 {
-                    await userManager.AddToRoleAsync(admin, "admin");
-                    await userManager.AddToRoleAsync(admin, "user");
+                    await userManager.AddToRoleAsync(admin, "Admin");
                 }
             }
         }

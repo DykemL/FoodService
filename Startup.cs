@@ -1,5 +1,6 @@
 using FoodService.Models;
 using FoodService.Models.DbEntities;
+using FoodService.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -45,6 +46,8 @@ namespace FoodService
                 options.Password.RequireNonAlphanumeric = false;
             })
                 .AddEntityFrameworkStores<AppDbContext>();
+
+            services.AddScoped<IUserSignService<AppUser>, UserSignService<AppUser>>();
 
             services.AddControllersWithViews();
         }

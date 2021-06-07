@@ -1,0 +1,44 @@
+﻿@model IEnumerable<FoodService.Models.UserRoleModel>
+@{
+    Layout = "_AdminLayout";
+    ViewBag.Title = "Пользователи";
+    int counter = 1;
+}
+
+<table class="table table-sm">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Логин</th>
+            <th>Почта</th>
+            <th width="200px">Роль</th>
+            <th width="330px">Действия</th>
+        </tr>
+    </thead>
+    <tbody>        
+        @foreach (var pair in Model)
+        {
+            <tr>
+                <th scope='row'>@counter</th>
+                <td>@pair.User.UserName</td>
+                <td>@pair.User.Email</td>
+                <td class="text-info">@pair.Role</td>
+                <td>
+                    <div class="row ml-auto">
+                        <a class="btn btn-sm btn-success w-140px" href="/admin/edit_group?id=<?=$user_id?>&group_id=<?='4'?>">Разблокировать</a>
+                        <a class="btn btn-sm btn-danger w-140px" href="/admin/edit_group?id=<?=$user_id?>&group_id=<?='5'?>">Заблокировать</a>
+                        <div class="dropdown">
+                            <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false">
+                                Изменить роль
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item">Чпоньк</a>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            counter++;
+        }
+    </tbody>
+</table>

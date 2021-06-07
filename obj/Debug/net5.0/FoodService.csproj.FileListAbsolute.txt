@@ -161,3 +161,5 @@ D:\Repository\Visual Studio 2019\C#\.Net Core ASP\FoodService\bin\Debug\net5.0\M
 D:\Repository\Visual Studio 2019\C#\.Net Core ASP\FoodService\bin\Debug\net5.0\Microsoft.Extensions.FileProviders.Embedded.dll
 D:\Repository\Visual Studio 2019\C#\.Net Core ASP\FoodService\obj\Debug\net5.0\FoodService.MvcApplicationPartsAssemblyInfo.cs
 D:\Repository\Visual Studio 2019\C#\.Net Core ASP\FoodService\obj\Debug\net5.0\Razor\Views\Shared\AccessDenied.cshtml.g.cs
+D:\Repository\Visual Studio 2019\C#\.Net Core ASP\FoodService\obj\Debug\net5.0\Razor\Views\Shared\_AdminLayout.cshtml.g.cs
+D:\Repository\Visual Studio 2019\C#\.Net Core ASP\FoodService\obj\Debug\net5.0\Razor\Views\Admin\Users.cshtml.g.cs

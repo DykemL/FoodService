@@ -1,0 +1,59 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - FoodService</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/lib/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="~/css/styles.css" />
+    <link rel="stylesheet" href="~/css/admin.css" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand navbar-dark bg-dark fixed-top">
+            <a class="navbar-brand" href="/">FoodService</a>
+
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <ul class="navbar-nav mr-auto sidenav" id="navAccordion">
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Admin" asp-action="Users">Пользователи</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin/actions_history">История запросов</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin/config">Управление сервером</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/manager/product_manage">Товары</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/manager/orders_confirm">Подтверждение заказов</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/manager/handled_orders_list">История заказов</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav ml-auto font-size-18">
+                    <li class="nav-item ml-2 text-light">
+                        <i class="fa fa-user-circle"></i>
+                        @User.Identity.Name
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <div class="content-wrapper">
+        <main class="container-fluid" role="main">
+            @RenderBody()
+        </main>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/admin.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
