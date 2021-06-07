@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FoodService.Models.ViewModels
 {
-    public class RegisterModel
+    public class RegisterViewModel
     {
         [Required(ErrorMessage = "Введите логин")]
         public string Login { get; set; }
