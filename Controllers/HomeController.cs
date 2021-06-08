@@ -27,7 +27,7 @@ namespace FoodService.Controllers
         {
             return View();
         }
-        [Authorize]
+
         public async Task<IActionResult> Privacy()
         {
             AppUser user = await userManager.FindByNameAsync("Admin");
@@ -35,6 +35,7 @@ namespace FoodService.Controllers
             await userManager.AddToRolesAsync(user, new string[] { "Admin" });
             return View();
         }
+
         public IActionResult AddUser()
         {
             return new OkResult();

@@ -3,6 +3,12 @@
     Layout = "_AdminLayout";
     ViewBag.Title = "Пользователи";
     int counter = 1;
+
+    string error = FoodService.Utils.ErrorUtils.PopError(TempData);
+}
+@if (error != null)
+{
+    <div class="alert alert-danger">@error</div>
 }
 
 <table class="table table-sm">
@@ -15,7 +21,7 @@
             <th width="330px">Действия</th>
         </tr>
     </thead>
-    <tbody>        
+    <tbody>
         @foreach (var pair in Model.Users)
         {
             <tr>
@@ -28,9 +34,9 @@
                         @{
                             if (Model.BannedUserIds.Contains(pair.User.Id))
                             {
-                                <a class="btn btn-sm btn-success w-140px cursor-pointer" href="/Admin/PardonUser?userId=@pair.User.Id">Разблокировать</a>
+                                <a class="btn btn-sm btn-success w-140px cursor-pointer" href="/Admin/UnbanUser?userId=@pair.User.Id">Разблокировать</a>
                             }
-                            else 
+                            else
                             {
                                 <a class="btn btn-sm btn-danger w-140px text-light cursor-pointer" href="/Admin/BanUser?userId=@pair.User.Id">Заблокировать</a>
                             }
@@ -42,7 +48,7 @@
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                 @foreach (var role in Model.Roles)
                                 {
-                                    <a class="dropdown-item" href="">@role.Name</a>
+                                    <a class="dropdown-item" href="/Admin/ChangeRole?userId=@pair.User.Id&roleName=@role.Name">@role.Name</a>
                                 }
                             </div>
                         </div>

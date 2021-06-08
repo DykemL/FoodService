@@ -1,5 +1,6 @@
 ﻿using FoodService.Models;
 using FoodService.Models.DbEntities;
+using FoodService.Utils;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -36,35 +37,47 @@ namespace FoodService.Controllers
             foreach (var user in users)
             {
                 IList<string> roles = await userManager.GetRolesAsync(user);
-                UserInfoModel userInfo = new() { User = user, Role = roles[0] };
-                if (roles[0] == "Banned")
+                UserInfoModel userInfo = new() { User = user, Role = roles.First() };
+                if (await userManager.IsLockedOutAsync(user))
                     usersInfo.BannedUserIds.Add(user.Id);
                 usersInfo.Users.Add(userInfo);
             }
-            usersInfo.Roles = roleManager.Roles.ToHashSet();
+            usersInfo.Roles = roleManager.Roles.OrderBy(role => role.Name).ToList();
+            usersInfo.Users = usersInfo.Users.OrderBy(user => user.User.UserName).ToList();
             return View(usersInfo);
         }
         [HttpGet]
         public async Task<IActionResult> BanUser(string userId)
         {
             AppUser user = await userManager.FindByIdAsync(userId);
-            if (!await userManager.IsInRoleAsync(user, "Banned"))
+            if (user.UserName == User.Identity.Name)
             {
-                await userManager.RemoveFromRolesAsync(user, await userManager.GetRolesAsync(user));
-                await userManager.AddToRoleAsync(user, "Banned");
+                ErrorUtils.SetError(TempData, "Вы не можете заблокировать себя");
+            }
+            if (!await userManager.IsLockedOutAsync(user))
+            {
+                await userManager.UpdateSecurityStampAsync(user);
+                await userManager.SetLockoutEndDateAsync(user, DateTimeOffset.MaxValue);
             }
             
             return RedirectToAction("Users");
         }
         [HttpGet]
-        public async Task<IActionResult> PardonUser(string userId)
+        public async Task<IActionResult> UnbanUser(string userId)
         {
             AppUser user = await userManager.FindByIdAsync(userId);
-            if (await userManager.IsInRoleAsync(user, "Banned"))
+            if (await userManager.IsLockedOutAsync(user))
             {
-                await userManager.RemoveFromRolesAsync(user, await userManager.GetRolesAsync(user));
-                await userManager.AddToRoleAsync(user, "User");
+                await userManager.SetLockoutEndDateAsync(user, null);
             }
+            return RedirectToAction("Users");
+        }
+        [HttpGet]
+        public async Task<IActionResult> ChangeRole(string userId, string roleName)
+        {
+            AppUser user = await userManager.FindByIdAsync(userId);
+            await userManager.RemoveFromRolesAsync(user, await userManager.GetRolesAsync(user));
+            await userManager.AddToRoleAsync(user, roleName);
             return RedirectToAction("Users");
         }
     }

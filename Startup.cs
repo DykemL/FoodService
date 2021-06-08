@@ -50,7 +50,7 @@ namespace FoodService
             services.AddAuthorization(options => {
                 options.AddPolicy("Base", policy =>
                 {
-                    policy.RequireRole("User", "Admin", "SuperAdmin");
+                    policy.RequireRole("User", "Admin", "Manager", "SuperAdmin");
                 });
                 options.AddPolicy("AdminOrHigher", policy => 
                 {
@@ -60,7 +60,8 @@ namespace FoodService
 
             services.Configure<SecurityStampValidatorOptions>(options =>
             {
-                options.ValidationInterval = TimeSpan.FromMinutes(0.0001);
+                //options.ValidationInterval = TimeSpan.FromMinutes(0.0001);
+                options.ValidationInterval = TimeSpan.Zero;
             });
 
             services.AddScoped<IUserService<AppUser>, UserService<AppUser>>();

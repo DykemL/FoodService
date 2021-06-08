@@ -29,10 +29,6 @@ namespace FoodService.Models
             {
                 await roleManager.CreateAsync(new IdentityRole("Manager"));
             }
-            if (await roleManager.FindByNameAsync("Banned") == null)
-            {
-                await roleManager.CreateAsync(new IdentityRole("Banned"));
-            }
             if (await userManager.FindByNameAsync("Admin") == null)
             {
                 string adminEmail = "admin@foodservice.com";

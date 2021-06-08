@@ -38,12 +38,14 @@ namespace FoodService.Controllers
         {
             if (ModelState.IsValid)
             {
-                //AppUser user = new() { UserName = model.Login };
-                //var result = await signInManager.PasswordSignInAsync(user, model.Password, false, false);
                 var result = await signInManager.PasswordSignInAsync(model.Login, model.Password, false, false);
                 if (result.Succeeded)
                 {
                     return RedirectToAction("Index", "Home");
+                }
+                else if (result.IsLockedOut)
+                {
+                    ModelState.AddModelError(string.Empty, "Данный аккаунт заблокирован");
                 }
                 else
                 {

@@ -10,8 +10,8 @@ namespace FoodService.Models
     public class UsersInfoModel
     {
         public List<UserInfoModel> Users { get; set; }
-        public HashSet<string> BannedUserIds { get; set; }
-        public HashSet<IdentityRole> Roles { get; set; }
+        public List<string> BannedUserIds { get; set; }
+        public List<IdentityRole> Roles { get; set; }
         public UsersInfoModel()
         {
             Users = new();
