@@ -1,4 +1,5 @@
-﻿using FoodService.Models.DbEntities;
+﻿using FoodService.Models;
+using FoodService.Models.DbEntities;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
@@ -7,19 +8,26 @@ using System.Threading.Tasks;
 
 namespace FoodService.Services
 {
-    public class UserSignService<TUser> : IUserSignService<TUser> where TUser : class
+    public class UserService<TUser> : IUserService<TUser> where TUser : class
     {
         private readonly UserManager<TUser> userManager;
         private readonly SignInManager<TUser> signInManager;
-        public UserSignService(UserManager<TUser> userManager, SignInManager<TUser> signInManager)
+        private readonly AppDbContext appDbContext;
+        public UserService(UserManager<TUser> userManager, SignInManager<TUser> signInManager, AppDbContext appDbContext)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
+            this.appDbContext = appDbContext;
         }
+
+        public bool IsBanned(string UserName)
+        {
+            return appDbContext.BannedUsers.All(bannedUser => bannedUser.User.UserName == UserName);
+        }
+
         public async Task AddToRoleAsync(TUser user, string role)
         {
             await userManager.AddToRoleAsync(user, role);
-            await signInManager.RefreshSignInAsync(user);
         }
 
         public async Task AddToRoleAsync(string userName, string role)
@@ -31,7 +39,6 @@ namespace FoodService.Services
         public async Task AddToRolesAsync(TUser user, IEnumerable<string> roles)
         {
             await userManager.AddToRolesAsync(user, roles);
-            await signInManager.RefreshSignInAsync(user);
         }
 
         public async Task AddToRolesAsync(string userName, IEnumerable<string> roles)
@@ -43,7 +50,6 @@ namespace FoodService.Services
         public async Task RemoveFromRoleAsync(TUser user, string role)
         {
             await userManager.RemoveFromRoleAsync(user, role);
-            await signInManager.RefreshSignInAsync(user);
         }
 
         public async Task RemoveFromRoleAsync(string userName, string role)
@@ -55,7 +61,6 @@ namespace FoodService.Services
         public async Task RemoveFromRolesAsync(TUser user, IEnumerable<string> roles)
         {
             await userManager.RemoveFromRolesAsync(user, roles);
-            await signInManager.RefreshSignInAsync(user);
         }
 
         public async Task RemoveFromRolesAsync(string userName, IEnumerable<string> roles)

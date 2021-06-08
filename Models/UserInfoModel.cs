@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FoodService.Models
 {
-    public class UserRoleModel
+    public class UserInfoModel
     {
         public AppUser User { get; set; }
         public string Role { get; set; }

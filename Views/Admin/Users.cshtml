@@ -1,4 +1,4 @@
-﻿@model IEnumerable<FoodService.Models.UserRoleModel>
+﻿@model FoodService.Models.UsersInfoModel
 @{
     Layout = "_AdminLayout";
     ViewBag.Title = "Пользователи";
@@ -16,7 +16,7 @@
         </tr>
     </thead>
     <tbody>        
-        @foreach (var pair in Model)
+        @foreach (var pair in Model.Users)
         {
             <tr>
                 <th scope='row'>@counter</th>
@@ -25,14 +25,25 @@
                 <td class="text-info">@pair.Role</td>
                 <td>
                     <div class="row ml-auto">
-                        <a class="btn btn-sm btn-success w-140px" href="/admin/edit_group?id=<?=$user_id?>&group_id=<?='4'?>">Разблокировать</a>
-                        <a class="btn btn-sm btn-danger w-140px" href="/admin/edit_group?id=<?=$user_id?>&group_id=<?='5'?>">Заблокировать</a>
+                        @{
+                            if (Model.BannedUsers.Contains(pair.User.Id))
+                            {
+                                <a class="btn btn-sm btn-success w-140px cursor-pointer" href="/Admin/PardonUser?userId=@pair.User.Id">Разблокировать</a>
+                            }
+                            else 
+                            {
+                                <a class="btn btn-sm btn-danger w-140px text-light cursor-pointer" href="/Admin/BanUser?userId=@pair.User.Id">Заблокировать</a>
+                            }
+                        }
                         <div class="dropdown">
                             <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false">
                                 Изменить роль
                             </button>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <a class="dropdown-item">Чпоньк</a>
+                                @foreach (var role in Model.Roles)
+                                {
+                                    <a class="dropdown-item" href="">@role.Name</a>
+                                }
                             </div>
                         </div>
                     </div>

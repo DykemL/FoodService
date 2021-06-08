@@ -16,9 +16,9 @@ namespace FoodService.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly IUserSignService<AppUser> userService;
+        private readonly IUserService<AppUser> userService;
 
-        public HomeController(IUserSignService<AppUser> userService)
+        public HomeController(IUserService<AppUser> userService)
         {
             this.userService = userService;
         }

@@ -1,1 +1,8 @@
-﻿<div class="alert alert-danger">Доступ запрещён!</div>
+﻿@if (User.IsInRole("Banned"))
+{
+    <div class="alert alert-danger">Ваш аккаунт заблокирован!</div>
+}
+else
+{
+    <div class="alert alert-danger">Доступ запрещён!</div>
+}

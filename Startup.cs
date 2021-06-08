@@ -47,7 +47,23 @@ namespace FoodService
             })
                 .AddEntityFrameworkStores<AppDbContext>();
 
-            services.AddScoped<IUserSignService<AppUser>, UserSignService<AppUser>>();
+            services.AddAuthorization(options => {
+                options.AddPolicy("Base", policy =>
+                {
+                    policy.RequireRole("User", "Admin", "SuperAdmin");
+                });
+                options.AddPolicy("AdminOrHigher", policy => 
+                {
+                    policy.RequireRole("SuperAdmin", "Admin");
+                });
+            });
+
+            services.Configure<SecurityStampValidatorOptions>(options =>
+            {
+                options.ValidationInterval = TimeSpan.FromMinutes(0);
+            });
+
+            services.AddScoped<IUserService<AppUser>, UserService<AppUser>>();
 
             services.AddControllersWithViews();
         }

@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace FoodService.Services
 {
-    public interface IUserSignService<TUser> where TUser : class
+    public interface IUserService<TUser> where TUser : class
     {
+        bool IsBanned(string UserName);
         Task AddToRoleAsync(TUser user, string role);
         Task AddToRoleAsync(string userName, string role);
         Task AddToRolesAsync(TUser user, IEnumerable<string> roles);
