@@ -54,7 +54,7 @@ namespace FoodService.Controllers
             {
                 ErrorUtils.SetError(TempData, "Вы не можете заблокировать себя");
             }
-            if (!await userManager.IsLockedOutAsync(user))
+            else if (!await userManager.IsLockedOutAsync(user))
             {
                 await userManager.UpdateSecurityStampAsync(user);
                 await userManager.SetLockoutEndDateAsync(user, DateTimeOffset.MaxValue);
