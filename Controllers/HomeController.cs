@@ -16,11 +16,11 @@ namespace FoodService.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly IUserService<AppUser> userService;
+        private readonly UserManager<AppUser> userManager;
 
-        public HomeController(IUserService<AppUser> userService)
+        public HomeController(UserManager<AppUser> userManager)
         {
-            this.userService = userService;
+            this.userManager = userManager;
         }
 
         public IActionResult Index()
@@ -30,8 +30,7 @@ namespace FoodService.Controllers
         [Authorize]
         public async Task<IActionResult> Privacy()
         {
-            await userService.AddToRolesAsync("Admin", new string[] { "Admin", "User" });
-
+            await userManager.AddToRolesAsync(await userManager.FindByNameAsync("Admin"), new string[] { "Admin" });
             return View();
         }
         public IActionResult AddUser()

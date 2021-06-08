@@ -26,7 +26,7 @@
                 <td>
                     <div class="row ml-auto">
                         @{
-                            if (Model.BannedUsers.Contains(pair.User.Id))
+                            if (Model.BannedUserIds.Contains(pair.User.Id))
                             {
                                 <a class="btn btn-sm btn-success w-140px cursor-pointer" href="/Admin/PardonUser?userId=@pair.User.Id">Разблокировать</a>
                             }

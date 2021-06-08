@@ -20,11 +20,6 @@ namespace FoodService.Services
             this.appDbContext = appDbContext;
         }
 
-        public bool IsBanned(string UserName)
-        {
-            return appDbContext.BannedUsers.All(bannedUser => bannedUser.User.UserName == UserName);
-        }
-
         public async Task AddToRoleAsync(TUser user, string role)
         {
             await userManager.AddToRoleAsync(user, role);

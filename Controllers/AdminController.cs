@@ -37,9 +37,10 @@ namespace FoodService.Controllers
             {
                 IList<string> roles = await userManager.GetRolesAsync(user);
                 UserInfoModel userInfo = new() { User = user, Role = roles[0] };
+                if (roles[0] == "Banned")
+                    usersInfo.BannedUserIds.Add(user.Id);
                 usersInfo.Users.Add(userInfo);
             }
-            usersInfo.BannedUsers = appDbContext.BannedUsers.Select(user => user.User.Id).ToHashSet();
             usersInfo.Roles = roleManager.Roles.ToHashSet();
             return View(usersInfo);
         }
@@ -47,8 +48,7 @@ namespace FoodService.Controllers
         public async Task<IActionResult> BanUser(string userId)
         {
             AppUser user = await userManager.FindByIdAsync(userId);
-            BannedUser bannedUser = appDbContext.BannedUsers.Where(user => user.User.Id == userId).FirstOrDefault();
-            if (bannedUser == null)
+            if (!await userManager.IsInRoleAsync(user, "Banned"))
             {
                 await userManager.RemoveFromRolesAsync(user, await userManager.GetRolesAsync(user));
                 await userManager.AddToRoleAsync(user, "Banned");
@@ -60,8 +60,7 @@ namespace FoodService.Controllers
         public async Task<IActionResult> PardonUser(string userId)
         {
             AppUser user = await userManager.FindByIdAsync(userId);
-            BannedUser bannedUser = appDbContext.BannedUsers.Where(user => user.User.Id == userId).FirstOrDefault();
-            if (bannedUser != null)
+            if (await userManager.IsInRoleAsync(user, "Banned"))
             {
                 await userManager.RemoveFromRolesAsync(user, await userManager.GetRolesAsync(user));
                 await userManager.AddToRoleAsync(user, "User");

@@ -60,7 +60,7 @@ namespace FoodService
 
             services.Configure<SecurityStampValidatorOptions>(options =>
             {
-                options.ValidationInterval = TimeSpan.FromMinutes(0);
+                options.ValidationInterval = TimeSpan.FromMinutes(0.01);
             });
 
             services.AddScoped<IUserService<AppUser>, UserService<AppUser>>();
