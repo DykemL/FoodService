@@ -1,0 +1,36 @@
+﻿@{
+    Layout = "_AdminLayout";
+    ViewBag.Title = "Товары";
+
+    string error = FoodService.Utils.MessageUtils.PopError(TempData);
+}
+@if (error != null)
+{
+    <div class="alert alert-danger">@error</div>
+}
+
+<table class="table table-sm">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Название</th>
+            <th>Описание</th>
+            <th width="330px">Действия</th>
+        </tr>
+    </thead>
+    <tbody>
+
+            <tr>
+                <th scope='row'>Бубу</th>
+                <td>Бубу</td>
+                <td>Бубу</td>
+                <td>
+                    <div class="row ml-auto">
+                        <button class="btn btn-sm btn-danger" type="button" aria-expanded="false">Удалить</button>
+                        <button class="btn btn-sm btn-secondary" type="button" aria-expanded="false">Изменить</button>
+                    </div>
+                </td>
+            </tr>
+
+    </tbody>
+</table>

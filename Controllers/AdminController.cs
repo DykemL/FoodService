@@ -59,11 +59,11 @@ namespace FoodService.Controllers
             AppUser user = await userManager.FindByIdAsync(userId);
             if (user.UserName == User.Identity.Name)
             {
-                ErrorUtils.SetError(TempData, "Вы не можете заблокировать себя");
+                MessageUtils.SetError(TempData, "Вы не можете заблокировать себя");
             }
             else if (await userManager.IsInRoleAsync(user, "SuperAdmin"))
             {
-                ErrorUtils.SetError(TempData, "Вы не можете заблокировать суперадминистратора");
+                MessageUtils.SetError(TempData, "Вы не можете заблокировать суперадминистратора");
             }
             else if (!await userManager.IsLockedOutAsync(user))
             {
@@ -79,7 +79,7 @@ namespace FoodService.Controllers
             AppUser user = await userManager.FindByIdAsync(userId);
             if (!await userManager.IsLockedOutAsync(user))
             {
-                ErrorUtils.SetError(TempData, "Этот пользователь не заблокирован");
+                MessageUtils.SetError(TempData, "Этот пользователь не заблокирован");
             }
             else
             {
@@ -93,15 +93,15 @@ namespace FoodService.Controllers
             AppUser user = await userManager.FindByIdAsync(userId);
             if (user.UserName == User.Identity.Name)
             {
-                ErrorUtils.SetError(TempData, "Вы не можете сменить свою роль");
+                MessageUtils.SetError(TempData, "Вы не можете сменить свою роль");
             }
             else if (await userManager.IsInRoleAsync(user, "SuperAdmin"))
             {
-                ErrorUtils.SetError(TempData, "Вы не можете сменить роль суперадминистратора");
+                MessageUtils.SetError(TempData, "Вы не можете сменить роль суперадминистратора");
             }
             else if (roleName == "SuperAdmin")
             {
-                ErrorUtils.SetError(TempData, "Вы не можете назначить суперадминистратора");
+                MessageUtils.SetError(TempData, "Вы не можете назначить суперадминистратора");
             }
             else
             {
@@ -123,6 +123,7 @@ namespace FoodService.Controllers
             string pgDumpPath = @"D:\Programs\PostgreSQL\bin\pg_dump";
             string outFile = @"D:\Repository\Visual Studio 2019\C#\.Net Core ASP\FoodService\DbBackups\backup.sql";
             appDbContext.Backup(pgDumpPath, outFile, "localhost", "5432", "FoodService", "admin", "admin");
+            MessageUtils.SetSuccessMessage(TempData, "Резервная копия успешно создана");
             return RedirectToAction("Controls");
         }
         public IActionResult DbRestore()
@@ -130,7 +131,12 @@ namespace FoodService.Controllers
             string pgRestorePath = @"D:\Programs\PostgreSQL\bin\pg_restore";
             string inputFile = @"D:\Repository\Visual Studio 2019\C#\.Net Core ASP\FoodService\DbBackups\backup.sql";
             appDbContext.Restore(pgRestorePath, inputFile, "localhost", "5432", "FoodService", "admin", "admin");
+            MessageUtils.SetSuccessMessage(TempData, "База данных успешно восстановлена");
             return RedirectToAction("Controls");
+        }
+        public IActionResult Goods()
+        {
+            return View();
         }
     }
 }

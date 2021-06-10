@@ -50,7 +50,11 @@ namespace FoodService
             services.AddAuthorization(options => {
                 options.AddPolicy("Base", policy =>
                 {
-                    policy.RequireRole("User", "Admin", "Manager", "SuperAdmin");
+                    policy.RequireRole("User", "Manager", "Admin", "SuperAdmin");
+                });
+                options.AddPolicy("ManagerOrHigher", policy =>
+                {
+                    policy.RequireRole("Manager", "SuperAdmin", "Admin");
                 });
                 options.AddPolicy("AdminOrHigher", policy => 
                 {

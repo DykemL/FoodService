@@ -4,7 +4,7 @@
     ViewBag.Title = "Пользователи";
     int counter = 1;
 
-    string error = FoodService.Utils.ErrorUtils.PopError(TempData);
+    string error = FoodService.Utils.MessageUtils.PopError(TempData);
 }
 @if (error != null)
 {
