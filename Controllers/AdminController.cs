@@ -2,8 +2,10 @@
 using FoodService.Models.DbEntities;
 using FoodService.Utils;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,15 +22,20 @@ namespace FoodService.Controllers
         AppDbContext appDbContext;
         RoleManager<IdentityRole> roleManager;
         SignInManager<AppUser> signInManager;
+
+        private IHostApplicationLifetime hostApplicationLifetime { get; set; }
+
         public AdminController(UserManager<AppUser> userManager, 
             AppDbContext appDbContext, 
             RoleManager<IdentityRole> roleManager,
-            SignInManager<AppUser> signInManager)
+            SignInManager<AppUser> signInManager,
+            IHostApplicationLifetime hostApplicationLifetime)
         {
             this.userManager = userManager;
             this.appDbContext = appDbContext;
             this.roleManager = roleManager;
             this.signInManager = signInManager;
+            this.hostApplicationLifetime = hostApplicationLifetime;
         }
         public async Task<IActionResult> Users()
         {
@@ -54,6 +61,10 @@ namespace FoodService.Controllers
             {
                 ErrorUtils.SetError(TempData, "Вы не можете заблокировать себя");
             }
+            else if (await userManager.IsInRoleAsync(user, "SuperAdmin"))
+            {
+                ErrorUtils.SetError(TempData, "Вы не можете заблокировать суперадминистратора");
+            }
             else if (!await userManager.IsLockedOutAsync(user))
             {
                 await userManager.UpdateSecurityStampAsync(user);
@@ -66,7 +77,11 @@ namespace FoodService.Controllers
         public async Task<IActionResult> UnbanUser(string userId)
         {
             AppUser user = await userManager.FindByIdAsync(userId);
-            if (await userManager.IsLockedOutAsync(user))
+            if (!await userManager.IsLockedOutAsync(user))
+            {
+                ErrorUtils.SetError(TempData, "Этот пользователь не заблокирован");
+            }
+            else
             {
                 await userManager.SetLockoutEndDateAsync(user, null);
             }
@@ -76,9 +91,46 @@ namespace FoodService.Controllers
         public async Task<IActionResult> ChangeRole(string userId, string roleName)
         {
             AppUser user = await userManager.FindByIdAsync(userId);
-            await userManager.RemoveFromRolesAsync(user, await userManager.GetRolesAsync(user));
-            await userManager.AddToRoleAsync(user, roleName);
+            if (user.UserName == User.Identity.Name)
+            {
+                ErrorUtils.SetError(TempData, "Вы не можете сменить свою роль");
+            }
+            else if (await userManager.IsInRoleAsync(user, "SuperAdmin"))
+            {
+                ErrorUtils.SetError(TempData, "Вы не можете сменить роль суперадминистратора");
+            }
+            else if (roleName == "SuperAdmin")
+            {
+                ErrorUtils.SetError(TempData, "Вы не можете назначить суперадминистратора");
+            }
+            else
+            {
+                await userManager.RemoveFromRolesAsync(user, await userManager.GetRolesAsync(user));
+                await userManager.AddToRoleAsync(user, roleName);
+            }
             return RedirectToAction("Users");
+        }
+        public IActionResult Controls()
+        {
+            return View();
+        }
+        public IActionResult RestartServer()
+        {
+            return RedirectToAction("Controls");
+        }
+        public IActionResult DbBackup()
+        {
+            string pgDumpPath = @"D:\Programs\PostgreSQL\bin\pg_dump";
+            string outFile = @"D:\Repository\Visual Studio 2019\C#\.Net Core ASP\FoodService\DbBackups\backup.sql";
+            appDbContext.Backup(pgDumpPath, outFile, "localhost", "5432", "FoodService", "admin", "admin");
+            return RedirectToAction("Controls");
+        }
+        public IActionResult DbRestore()
+        {
+            string pgRestorePath = @"D:\Programs\PostgreSQL\bin\pg_restore";
+            string inputFile = @"D:\Repository\Visual Studio 2019\C#\.Net Core ASP\FoodService\DbBackups\backup.sql";
+            appDbContext.Restore(pgRestorePath, inputFile, "localhost", "5432", "FoodService", "admin", "admin");
+            return RedirectToAction("Controls");
         }
     }
 }

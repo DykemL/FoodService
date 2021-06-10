@@ -163,3 +163,4 @@ D:\Repository\Visual Studio 2019\C#\.Net Core ASP\FoodService\obj\Debug\net5.0\F
 D:\Repository\Visual Studio 2019\C#\.Net Core ASP\FoodService\obj\Debug\net5.0\Razor\Views\Shared\AccessDenied.cshtml.g.cs
 D:\Repository\Visual Studio 2019\C#\.Net Core ASP\FoodService\obj\Debug\net5.0\Razor\Views\Shared\_AdminLayout.cshtml.g.cs
 D:\Repository\Visual Studio 2019\C#\.Net Core ASP\FoodService\obj\Debug\net5.0\Razor\Views\Admin\Users.cshtml.g.cs
+D:\Repository\Visual Studio 2019\C#\.Net Core ASP\FoodService\obj\Debug\net5.0\Razor\Views\Admin\Controls.cshtml.g.cs

@@ -24,37 +24,48 @@
     <tbody>
         @foreach (var pair in Model.Users)
         {
-            <tr>
-                <th scope='row'>@counter</th>
-                <td>@pair.User.UserName</td>
-                <td>@pair.User.Email</td>
-                <td class="text-info">@pair.Role</td>
-                <td>
-                    <div class="row ml-auto">
-                        @{
-                            if (Model.BannedUserIds.Contains(pair.User.Id))
-                            {
-                                <a class="btn btn-sm btn-success w-140px cursor-pointer" href="/Admin/UnbanUser?userId=@pair.User.Id">Разблокировать</a>
-                            }
-                            else
-                            {
-                                <a class="btn btn-sm btn-danger w-140px text-light cursor-pointer" href="/Admin/BanUser?userId=@pair.User.Id">Заблокировать</a>
-                            }
+        <tr>
+            <th scope='row'>@counter</th>
+            <td>@pair.User.UserName</td>
+            <td>@pair.User.Email</td>
+            @if (pair.Role == "Admin")
+            {
+                <td class="text-primary">@pair.Role</td>
+            }
+            else if (pair.Role == "SuperAdmin")
+            {
+                <td class="text-danger">@pair.Role</td>
+            }
+            else
+            {
+                <td class="text-secondary">@pair.Role</td>
+            }
+            <td>
+                <div class="row ml-auto">
+                    @{
+                        if (Model.BannedUserIds.Contains(pair.User.Id))
+                        {
+                            <a class="btn btn-sm btn-success w-140px cursor-pointer" href="/Admin/UnbanUser?userId=@pair.User.Id">Разблокировать</a>
                         }
-                        <div class="dropdown">
-                            <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false">
-                                Изменить роль
-                            </button>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                @foreach (var role in Model.Roles)
-                                {
-                                    <a class="dropdown-item" href="/Admin/ChangeRole?userId=@pair.User.Id&roleName=@role.Name">@role.Name</a>
-                                }
-                            </div>
+                        else
+                        {
+                            <a class="btn btn-sm btn-danger w-140px text-light cursor-pointer" href="/Admin/BanUser?userId=@pair.User.Id">Заблокировать</a>
+                        }
+                    }
+                    <div class="dropdown">
+                        <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false">
+                            Изменить роль
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            @foreach (var role in Model.Roles)
+                            {
+                                <a class="dropdown-item" href="/Admin/ChangeRole?userId=@pair.User.Id&roleName=@role.Name">@role.Name</a>
+                            }
                         </div>
                     </div>
-                </td>
-            </tr>
+                </div>
+            </td>
+        </tr>
             counter++;
         }
     </tbody>

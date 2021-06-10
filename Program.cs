@@ -9,6 +9,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace FoodService
@@ -18,7 +19,7 @@ namespace FoodService
         public static async Task Main(string[] args)
         {
             var host = CreateHostBuilder(args).Build();
-            await InitializeDatabase(host);
+            //await InitializeDatabase(host);
             host.Run();
         }
 

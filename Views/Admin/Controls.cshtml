@@ -1,0 +1,20 @@
+﻿@{
+    Layout = "_AdminLayout";
+    ViewBag.Title = "Управление сервером";
+
+    string error = FoodService.Utils.ErrorUtils.PopError(TempData);
+}
+@if (error != null)
+{
+    <div class="alert alert-danger">@error</div>
+}
+
+<div class="h4 text-info">Сервер</div>
+<div><hr></div>
+<div class="mt-1"><a class="btn btn-secondary" type="button" href="/Admin/RestartServer">Перезапустить сервер</a></div>
+<div><hr></div>
+<div class="h4 text-info mt-4">База данных</div>
+<div><hr></div>
+<div class="mt-1"><a class="btn btn-secondary" type="button" href="/Admin/DbBackup">Сделать резервную копию базы данных</a></div>
+<div class="mt-1"><a class="btn btn-secondary" type="button" href="/Admin/DbRestore">Восстановить базу данных из резервной копии</a></div>
+<div><hr></div>
