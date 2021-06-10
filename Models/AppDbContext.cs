@@ -15,6 +15,8 @@ namespace FoodService.Models
 {
     public class AppDbContext : IdentityDbContext<AppUser>
     {
+        public DbSet<Product> Products { get; set; }
+        public DbSet<Shop> Shops { get; set; }
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
             //Database.EnsureCreated();
