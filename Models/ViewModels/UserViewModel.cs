@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace FoodService.Models
+namespace FoodService.Models.ViewModels
 {
-    public class UserInfoModel
+    public class UserViewModel
     {
         public AppUser User { get; set; }
         public string Role { get; set; }

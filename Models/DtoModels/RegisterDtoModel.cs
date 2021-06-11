@@ -4,9 +4,9 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace FoodService.Models.ViewModels
+namespace FoodService.Models.DtoModels
 {
-    public class RegisterViewModel
+    public class RegisterDtoModel
     {
         [Required(ErrorMessage = "Введите логин")]
         public string Login { get; set; }

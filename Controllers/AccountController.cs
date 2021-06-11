@@ -1,6 +1,6 @@
 ﻿using FoodService.Models;
 using FoodService.Models.DbEntities;
-using FoodService.Models.ViewModels;
+using FoodService.Models.DtoModels;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
@@ -34,7 +34,7 @@ namespace FoodService.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> Login(LoginViewModel model)
+        public async Task<IActionResult> Login(LoginDtoModel model)
         {
             if (ModelState.IsValid)
             {
@@ -60,7 +60,7 @@ namespace FoodService.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> Register(RegisterViewModel model)
+        public async Task<IActionResult> Register(RegisterDtoModel model)
         {
             if (ModelState.IsValid)
             {

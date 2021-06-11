@@ -1,5 +1,6 @@
 ﻿using FoodService.Models;
 using FoodService.Models.DbEntities;
+using FoodService.Models.ViewModels;
 using FoodService.Utils;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
@@ -40,11 +41,11 @@ namespace FoodService.Controllers
         public async Task<IActionResult> Users()
         {
             List<AppUser> users = userManager.Users.ToList();
-            UsersInfoModel usersInfo = new();
+            UsersViewModel usersInfo = new();
             foreach (var user in users)
             {
                 IList<string> roles = await userManager.GetRolesAsync(user);
-                UserInfoModel userInfo = new() { User = user, Role = roles.First() };
+                UserViewModel userInfo = new() { User = user, Role = roles.First() };
                 if (await userManager.IsLockedOutAsync(user))
                     usersInfo.BannedUserIds.Add(user.Id);
                 usersInfo.Users.Add(userInfo);
@@ -134,7 +135,7 @@ namespace FoodService.Controllers
             MessageUtils.SetSuccessMessage(TempData, "База данных успешно восстановлена");
             return RedirectToAction("Controls");
         }
-        public IActionResult Goods()
+        public IActionResult Products()
         {
             return View();
         }

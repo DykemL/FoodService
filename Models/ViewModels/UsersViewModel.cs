@@ -5,14 +5,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace FoodService.Models
+namespace FoodService.Models.ViewModels
 {
-    public class UsersInfoModel
+    public class UsersViewModel
     {
-        public List<UserInfoModel> Users { get; set; }
+        public List<UserViewModel> Users { get; set; }
         public List<string> BannedUserIds { get; set; }
         public List<IdentityRole> Roles { get; set; }
-        public UsersInfoModel()
+        public UsersViewModel()
         {
             Users = new();
             BannedUserIds = new();
