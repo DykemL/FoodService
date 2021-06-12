@@ -4,11 +4,14 @@ using FoodService.Models.ViewModels;
 using FoodService.Utils;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
@@ -24,19 +27,22 @@ namespace FoodService.Controllers
         RoleManager<IdentityRole> roleManager;
         SignInManager<AppUser> signInManager;
 
+        private IWebHostEnvironment appEnvironment;
         private IHostApplicationLifetime hostApplicationLifetime { get; set; }
 
         public AdminController(UserManager<AppUser> userManager, 
             AppDbContext appDbContext, 
             RoleManager<IdentityRole> roleManager,
             SignInManager<AppUser> signInManager,
-            IHostApplicationLifetime hostApplicationLifetime)
+            IHostApplicationLifetime hostApplicationLifetime,
+            IWebHostEnvironment appEnvironment)
         {
             this.userManager = userManager;
             this.appDbContext = appDbContext;
             this.roleManager = roleManager;
             this.signInManager = signInManager;
             this.hostApplicationLifetime = hostApplicationLifetime;
+            this.appEnvironment = appEnvironment;
         }
         public async Task<IActionResult> Users()
         {
@@ -137,7 +143,72 @@ namespace FoodService.Controllers
         }
         public IActionResult Products()
         {
-            return View();
+            List<Product> products = appDbContext.Products
+                .Include(product => product.Image)
+                .Include(product => product.Shop)
+                .ToList();
+            return View(products);
+        }
+        [HttpPost]
+        public async Task<IActionResult> AddProduct(string name, string description, string price, string shopName, IFormFile image)
+        {
+            if (name == "" || name == null)
+                MessageUtils.SetError(TempData, "Вы не ввели название товара");
+            else if (!double.TryParse(price, out double doublePrice))
+                MessageUtils.SetError(TempData, "Неверный формат цены. Используйте число");
+            else
+            {
+                Shop shop = appDbContext.Shops.Where(shop => shop.Name == shopName).FirstOrDefault();
+                if (shop == null)
+                {
+                    shop = new Shop() { Name = shopName };
+                    await appDbContext.Shops.AddAsync(shop);
+                }
+
+                Product product = new() { Name = name, Description = description, Price = doublePrice, Shop = shop };
+                await appDbContext.Products.AddAsync(product);
+
+                if (image != null && image.FileName != "DefaultImage.jpg")
+                {
+                    string path = "/Images/" + image.FileName;
+                    using (var fileStream = new FileStream(appEnvironment.WebRootPath + path, FileMode.Create))
+                    {
+                        await image.CopyToAsync(fileStream);
+                    }
+                    LocalImage imageModel = new() { Name = image.FileName, Path = path };
+                    appDbContext.Images.Add(imageModel);
+                    product.Image = imageModel;
+                }
+                else
+                {
+                    LocalImage imageModel = appDbContext.Images.Where(image => image.Name == "DefaultImage.jpg").First();
+                    product.Image = imageModel;
+                }
+                MessageUtils.SetSuccessMessage(TempData, "Продукт успешно добавлен");
+                appDbContext.SaveChanges();
+            }
+            return RedirectToAction("Products");
+        }
+        public async Task<IActionResult> DeleteProduct(int productId)
+        {
+            Product product = appDbContext.Products.Include(product => product.Image).Where(product => product.Id == productId).FirstOrDefault();
+            if (product != null)
+            {
+                if (product.Image.Name != "DefaultImage.jpg")
+                {
+                    appDbContext.Images.Remove(product.Image);
+                    System.IO.File.Delete(appEnvironment.WebRootPath + product.Image.Path);
+                }
+                    
+                appDbContext.Products.Remove(product);
+                await appDbContext.SaveChangesAsync();
+            }
+            else
+            {
+                MessageUtils.SetError(TempData, "Такого товара не существует");
+            }
+            MessageUtils.SetSuccessMessage(TempData, "Продукт успешно удалён");
+            return RedirectToAction("Products");
         }
     }
 }

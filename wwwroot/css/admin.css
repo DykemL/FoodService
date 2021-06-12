@@ -51,3 +51,8 @@ body {
         margin-left: 230px;
     }
 }
+
+.image-show {
+    max-height: 100%;
+    max-width: 100%;
+}

@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 
 namespace FoodService.Models.DbEntities
 {
-    public class Shop
+    public class LocalImage
     {
         [Key]
         public int Id { get; set; }
         public string Name { get; set; }
+        public string Path { get; set; }
         public IList<Product> Products { get; set; } = new List<Product>();
     }
 }

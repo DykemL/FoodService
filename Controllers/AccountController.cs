@@ -62,7 +62,9 @@ namespace FoodService.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(RegisterDtoModel model)
         {
-            if (ModelState.IsValid)
+            if (userManager.Users.Any(user => user.UserName == model.Login))
+                ModelState.AddModelError("", "Пользователь с таким именем уже существует");
+            else if (ModelState.IsValid)
             {
                 AppUser user = new(model.Login) { Email = model.Email };
                 await userManager.CreateAsync(user, model.Password);

@@ -17,9 +17,10 @@ namespace FoodService.Models
     {
         public DbSet<Product> Products { get; set; }
         public DbSet<Shop> Shops { get; set; }
+        public DbSet<LocalImage> Images { get; set; }
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
-            //Database.EnsureCreated();
+            Database.EnsureCreated();
         }
 
         public void Backup(

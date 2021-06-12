@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -25,8 +25,13 @@
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">О нас</a>
                             </li>
                         </ul>
-                        <ul class="navbar-nav">
-                            <li class="dropdown ">
+                        <div class="navbar-nav">
+                            <a class="nav-link font-size-18 text-dark mr-2" href="Profile/Basket">
+                                <i class="fa fa-shopping-cart"></i>
+                                Корзина
+                                <span id="basketCounter" class="badge bg-primary rounded-pill text-light d-none"></span>
+                            </a>
+                            <div class="dropdown">
                                 <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <i class="fa fa-user-circle" aria-hidden="true"></i>
                                     <span>@User.Identity.Name</span>
@@ -39,8 +44,8 @@
                                     }
                                     <a class="dropdown-item" asp-controller="Account" asp-action="Logout">Выйти</a>
                                 </div>
-                            </li>
-                        </ul>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </nav>
@@ -63,6 +68,11 @@
                             </li>
                         </ul>
                         <div class="navbar-nav">
+                            <a class="nav-link font-size-18 text-dark mr-2" href="Profile/Basket">
+                                <i class="fa fa-shopping-cart"></i>
+                                Корзина
+                                <span class="basketCounter badge bg-primary rounded-pill text-light d-none"></span>
+                            </a>
                             <a class="btn btn-primary mr-sm-2" asp-controller="Account" asp-action="Register">Регистрация</a>
                             <a class="btn btn-primary" asp-controller="Account" asp-action="Login">Войти</a>
                         </div>
@@ -71,7 +81,7 @@
             </nav>
         </header>
     }
-    <div class="container">
+    <div class="container-fluid">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>

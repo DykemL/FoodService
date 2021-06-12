@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -17,15 +18,34 @@ namespace FoodService.Controllers
     public class HomeController : Controller
     {
         private readonly UserManager<AppUser> userManager;
+        private readonly AppDbContext appDbContext;
 
-        public HomeController(UserManager<AppUser> userManager)
+        public HomeController(UserManager<AppUser> userManager, AppDbContext appDbContext)
         {
             this.userManager = userManager;
+            this.appDbContext = appDbContext;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(string filterByName = null)
         {
-            return View();
+            List<Product> products;
+            if (filterByName == null)
+            {
+                products = appDbContext.Products
+                .Include(product => product.Image)
+                .Include(product => product.Shop)
+                .ToList();
+            }
+            else
+            {
+                products = appDbContext.Products
+                .Include(product => product.Image)
+                .Include(product => product.Shop)
+                .Where(product => product.Name.ToLower().Contains(filterByName.ToLower()))
+                .ToList();
+            }
+
+            return View(products);
         }
 
         public async Task<IActionResult> Privacy()

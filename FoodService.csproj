@@ -20,7 +20,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="wwwroot\Images\" />
     <Folder Include="wwwroot\lib\font-awesome\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\Images\DefaultImage.jpg" />
   </ItemGroup>
 
 </Project>

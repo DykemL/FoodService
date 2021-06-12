@@ -10,8 +10,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace FoodService.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20210610200555_AddProducts")]
-    partial class AddProducts
+    [Migration("20210611170429_AddProductsShopsImages")]
+    partial class AddProductsShopsImages
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -85,6 +85,24 @@ namespace FoodService.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("FoodService.Models.DbEntities.LocalImage", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Path")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Images");
+                });
+
             modelBuilder.Entity("FoodService.Models.DbEntities.Product", b =>
                 {
                     b.Property<int>("Id")
@@ -95,8 +113,8 @@ namespace FoodService.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("text");
 
-                    b.Property<string>("ImagePath")
-                        .HasColumnType("text");
+                    b.Property<int?>("ImageId")
+                        .HasColumnType("integer");
 
                     b.Property<string>("Name")
                         .HasColumnType("text");
@@ -108,6 +126,8 @@ namespace FoodService.Migrations
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ImageId");
 
                     b.HasIndex("ShopId");
 
@@ -261,9 +281,17 @@ namespace FoodService.Migrations
 
             modelBuilder.Entity("FoodService.Models.DbEntities.Product", b =>
                 {
-                    b.HasOne("FoodService.Models.DbEntities.Shop", null)
+                    b.HasOne("FoodService.Models.DbEntities.LocalImage", "Image")
+                        .WithMany("Products")
+                        .HasForeignKey("ImageId");
+
+                    b.HasOne("FoodService.Models.DbEntities.Shop", "Shop")
                         .WithMany("Products")
                         .HasForeignKey("ShopId");
+
+                    b.Navigation("Image");
+
+                    b.Navigation("Shop");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -315,6 +343,11 @@ namespace FoodService.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("FoodService.Models.DbEntities.LocalImage", b =>
+                {
+                    b.Navigation("Products");
                 });
 
             modelBuilder.Entity("FoodService.Models.DbEntities.Shop", b =>
