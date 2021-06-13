@@ -15,8 +15,9 @@ namespace FoodService.Models.DbEntities
         public string Description { get; set; }
         public double Price { get; set; }
         public int ShopId { get; set; }
-        public virtual Shop Shop { get; set; }
+        public Shop Shop { get; set; }
         public int ImageId { get; set; }
-        public virtual LocalImage Image { get; set; }
+        public LocalImage Image { get; set; }
+        public List<Order> Orders { get; set; } = new List<Order>();
     }
 }
