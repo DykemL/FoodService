@@ -73,5 +73,12 @@ function setProductCookie(object) {
 }
 
 function getProductCookie() {
-	return JSON.parse(Cookies.get('productsBasketJson'));
+	let jObject = {};
+	try {
+		console.log("try");
+		jObject = Cookies.get('productsBasketJson');
+	} catch {
+		return null;
+	}
+	return JSON.parse(jObject);
 }

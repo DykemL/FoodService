@@ -46,7 +46,7 @@ namespace FoodService.Controllers
                 if (!int.TryParse(model.ProductsCount[i], out int count))
                     count = 1;
                 ProductPack pack = new() { ProductId = int.Parse(model.ProductId[i]),
-                    Count = int.Parse(model.ProductsCount[i]),
+                    Count = count,
                     Order = order
                 };
                 appDbContext.ProductPacks.Add(pack);
@@ -54,6 +54,8 @@ namespace FoodService.Controllers
 
             appDbContext.Orders.Add(order);
             await appDbContext.SaveChangesAsync();
+            HttpContext.Response.Cookies.Delete("productsBasketJson");
+            HttpContext.Response.Cookies.Append("productsBasketJson", "");
             return RedirectToAction("Basket");
         }
     }
