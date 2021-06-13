@@ -25,13 +25,26 @@ namespace FoodService.Controllers
         }
         public IActionResult Basket()
         {
-            JObject jObject = JObject.Parse(HttpContext.Request.Cookies["productsBasketJson"]);
-            int[] ids = jObject.First.First.ToObject<int[]>();
-            List<Product> products = appDbContext.Products
-                .Include(product => product.Image)
-                .Include(product => product.Shop)
-                .Where(product => ids.Contains(product.Id))
-                .ToList();
+            List<Product> products = new();
+            if (HttpContext.Request.Cookies.TryGetValue("productsBasketJson", out string strJObject))
+            {
+                JObject jObject;
+                try
+                {
+                    jObject = JObject.Parse(strJObject);
+                }
+                catch
+                {
+                    return View(products);
+                }
+                int[] ids = jObject.First.First.ToObject<int[]>();
+                products = appDbContext.Products
+                    .Include(product => product.Image)
+                    .Include(product => product.Shop)
+                    .Where(product => ids.Contains(product.Id))
+                    .ToList();
+                
+            }
             return View(products);
         }
         [Authorize]

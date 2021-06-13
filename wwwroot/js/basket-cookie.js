@@ -55,7 +55,6 @@ function setDeleteButtonStatus(button) {
 function updateBusketCounter() {
 	let basketCounter = document.getElementById("basketCounter");
 	let productsObject = getProductCookie();
-	console.log(productsObject);
 	if (basketCounter != null) {
 		basketCounter.innerText = productsObject.productIds.length;
 		if (productsObject.productIds.length > 0)
@@ -68,17 +67,15 @@ function updateBusketCounter() {
 }
 
 function setProductCookie(object) {
-	//Cookies.set('productsBasketJson', JSON.stringify(object), { expires = 365, path = '/' });
 	Cookies.set('productsBasketJson', JSON.stringify(object), { path: '/', expires: 365 });
 }
 
 function getProductCookie() {
 	let jObject = {};
 	try {
-		console.log("try");
-		jObject = Cookies.get('productsBasketJson');
+		jObject = JSON.parse(Cookies.get('productsBasketJson'));
 	} catch {
 		return null;
 	}
-	return JSON.parse(jObject);
+	return jObject;
 }
