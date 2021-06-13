@@ -30,9 +30,10 @@ namespace FoodService
                 var services = scope.ServiceProvider;
                 try
                 {
+                    var appDbContext = services.GetRequiredService<AppDbContext>();
                     var userManager = services.GetRequiredService<UserManager<AppUser>>();
                     var rolesManager = services.GetRequiredService<RoleManager<IdentityRole>>();
-                    await ApplicationDbInitializer.InitializeAsync(userManager, rolesManager);
+                    await ApplicationDbInitializer.InitializeAsync(appDbContext, userManager, rolesManager);
                 }
                 catch (Exception exception)
                 {

@@ -108,25 +108,20 @@ namespace FoodService.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-                    b.Property<string>("AspUserId")
-                        .HasColumnType("text");
-
                     b.Property<int>("OrderStatusId")
                         .HasColumnType("integer");
 
                     b.Property<DateTime>("OrderTime")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<int?>("ProductId")
-                        .HasColumnType("integer");
+                    b.Property<string>("UserId")
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AspUserId");
-
                     b.HasIndex("OrderStatusId");
 
-                    b.HasIndex("ProductId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Orders");
                 });
@@ -187,7 +182,7 @@ namespace FoodService.Migrations
                     b.Property<int>("Count")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("OrderId")
+                    b.Property<int>("OrderId")
                         .HasColumnType("integer");
 
                     b.Property<int>("ProductId")
@@ -349,23 +344,19 @@ namespace FoodService.Migrations
 
             modelBuilder.Entity("FoodService.Models.DbEntities.Order", b =>
                 {
-                    b.HasOne("FoodService.Models.DbEntities.AppUser", "AspUser")
-                        .WithMany()
-                        .HasForeignKey("AspUserId");
-
                     b.HasOne("FoodService.Models.DbEntities.OrderStatus", "OrderStatus")
                         .WithMany()
                         .HasForeignKey("OrderStatusId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("FoodService.Models.DbEntities.Product", null)
-                        .WithMany("Orders")
-                        .HasForeignKey("ProductId");
-
-                    b.Navigation("AspUser");
+                    b.HasOne("FoodService.Models.DbEntities.AppUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
 
                     b.Navigation("OrderStatus");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("FoodService.Models.DbEntities.Product", b =>
@@ -389,15 +380,19 @@ namespace FoodService.Migrations
 
             modelBuilder.Entity("FoodService.Models.DbEntities.ProductPack", b =>
                 {
-                    b.HasOne("FoodService.Models.DbEntities.Order", null)
+                    b.HasOne("FoodService.Models.DbEntities.Order", "Order")
                         .WithMany("ProductPacks")
-                        .HasForeignKey("OrderId");
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("FoodService.Models.DbEntities.Product", "Product")
                         .WithMany()
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Order");
 
                     b.Navigation("Product");
                 });
@@ -461,11 +456,6 @@ namespace FoodService.Migrations
             modelBuilder.Entity("FoodService.Models.DbEntities.Order", b =>
                 {
                     b.Navigation("ProductPacks");
-                });
-
-            modelBuilder.Entity("FoodService.Models.DbEntities.Product", b =>
-                {
-                    b.Navigation("Orders");
                 });
 
             modelBuilder.Entity("FoodService.Models.DbEntities.Shop", b =>

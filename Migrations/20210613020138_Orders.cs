@@ -4,7 +4,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace FoodService.Migrations
 {
-    public partial class AddOrders : Migration
+    public partial class Orders : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -55,17 +55,16 @@ namespace FoodService.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    AspUserId = table.Column<string>(type: "text", nullable: true),
+                    UserId = table.Column<string>(type: "text", nullable: true),
                     OrderStatusId = table.Column<int>(type: "integer", nullable: false),
-                    OrderTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    ProductId = table.Column<int>(type: "integer", nullable: true)
+                    OrderTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Orders", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Orders_AspNetUsers_AspUserId",
-                        column: x => x.AspUserId,
+                        name: "FK_Orders_AspNetUsers_UserId",
+                        column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -75,12 +74,6 @@ namespace FoodService.Migrations
                         principalTable: "OrderStatuses",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Orders_Products_ProductId",
-                        column: x => x.ProductId,
-                        principalTable: "Products",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -89,9 +82,9 @@ namespace FoodService.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    OrderId = table.Column<int>(type: "integer", nullable: false),
                     ProductId = table.Column<int>(type: "integer", nullable: false),
-                    Count = table.Column<int>(type: "integer", nullable: false),
-                    OrderId = table.Column<int>(type: "integer", nullable: true)
+                    Count = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -101,7 +94,7 @@ namespace FoodService.Migrations
                         column: x => x.OrderId,
                         principalTable: "Orders",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_ProductPacks_Products_ProductId",
                         column: x => x.ProductId,
@@ -111,19 +104,14 @@ namespace FoodService.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Orders_AspUserId",
-                table: "Orders",
-                column: "AspUserId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Orders_OrderStatusId",
                 table: "Orders",
                 column: "OrderStatusId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Orders_ProductId",
+                name: "IX_Orders_UserId",
                 table: "Orders",
-                column: "ProductId");
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ProductPacks_OrderId",

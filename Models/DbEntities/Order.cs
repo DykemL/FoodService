@@ -11,8 +11,8 @@ namespace FoodService.Models.DbEntities
         [Key]
         public int Id { get; set; }
         public List<ProductPack> ProductPacks { get; set; } = new List<ProductPack>();
-        public string AspUserId { get; set; }
-        public AppUser AspUser { get; set; }
+        public string UserId { get; set; }
+        public AppUser User { get; set; }
         public int OrderStatusId { get; set; }
         public OrderStatus OrderStatus { get; set; }
         public DateTime OrderTime { get; set; }

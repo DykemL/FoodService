@@ -36,8 +36,22 @@ namespace FoodService.Controllers
         }
         [Authorize]
         [HttpPost]
-        public IActionResult BuyProducts(ProductDtoModel model)
+        public async Task<IActionResult> BuyProducts(ProductDtoModel model)
         {
+            AppUser user = appDbContext.Users.Where(user => user.UserName == User.Identity.Name).FirstOrDefault();
+            Order order = new() { OrderStatusId = 1, OrderTime = DateTime.UtcNow, User = user};
+            appDbContext.Orders.Add(order);
+            for (int i = 0; i < model.ProductId.Length; i++)
+            {
+                ProductPack pack = new() { ProductId = int.Parse(model.ProductId[i]),
+                    Count = int.Parse(model.ProductsCount[i]),
+                    Order = order
+                };
+                appDbContext.ProductPacks.Add(pack);
+            }
+
+            appDbContext.Orders.Add(order);
+            await appDbContext.SaveChangesAsync();
             return RedirectToAction("Basket");
         }
     }

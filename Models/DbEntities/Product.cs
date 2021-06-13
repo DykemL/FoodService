@@ -18,6 +18,5 @@ namespace FoodService.Models.DbEntities
         public Shop Shop { get; set; }
         public int ImageId { get; set; }
         public LocalImage Image { get; set; }
-        public List<Order> Orders { get; set; } = new List<Order>();
     }
 }

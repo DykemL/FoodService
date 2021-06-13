@@ -11,7 +11,7 @@ namespace FoodService.Models
 {
     public static class ApplicationDbInitializer
     {
-        public static async Task InitializeAsync(UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager)
+        public static async Task InitializeAsync(AppDbContext appDbContext, UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager)
         {
             if (await roleManager.FindByNameAsync("User") == null)
             {
@@ -51,6 +51,11 @@ namespace FoodService.Models
                     await userManager.AddToRoleAsync(admin, "SuperAdmin");
                 }
             }
+            if (!appDbContext.OrderStatuses.Any(order => order.Status == "InProgress"))
+                appDbContext.OrderStatuses.Add(new() { Status = "InProgress" });
+            if (!appDbContext.OrderStatuses.Any(order => order.Status == "Completed"))
+                appDbContext.OrderStatuses.Add(new() { Status = "Completed" });
+            await appDbContext.SaveChangesAsync();
         }
     }
 }
