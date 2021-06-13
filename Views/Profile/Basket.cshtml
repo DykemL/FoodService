@@ -1,0 +1,39 @@
+﻿@model IEnumerable<FoodService.Models.DbEntities.Product>
+@{
+    ViewData["Title"] = "Главная";
+}
+<div class="container">
+    <form asp-controller="Profile" asp-action="BuyProducts" method="post">
+        <div class="h4 mt-2">Корзина: </div>
+        @if (Model.Count() == 0)
+        {
+            <h4 class='text-center fst-italic' style='text-decoration: underline;'>Пусто</h4>
+        }
+        else
+        {
+            <button class="btn btn-success mt-2" type="submit">Заказать выбранное</button>
+            <div class="small text-secondary">Если вы не указали количество товаров, то по умолчанию заказывается 1 штука</div>
+
+            <div class="d-flex align-content-start flex-wrap">
+                @foreach (var product in Model)
+                {
+                    <div class="card product-card-sm mt-3 ml-3">
+                        <img class="product-image-sm" src="@product.Image.Path" alt="Картинка">
+                        <div class="card-body">
+                            <h5>@product.Name</h5>
+                            <div class="small text-secondary">@product.Shop.Name</div>
+                            <div class="product-description-sm scrollable" style="">@product.Description</div>
+                            <div class="font-weight-bold mt-1">@product.Price&#8381</div>
+                            <input name="ProductsCount" class="form-control form-control-sm" type="text" placeholder="Количество" />
+                            <button class="btn btn-add-to-basket mt-1" data-productId="@product.Id">
+                                <i class='fa fa-shopping-cart'></i>
+                                Добавить в корзину
+                            </button>
+                        </div>
+                        <input name="ProductId" id="hiddenProductId" class="d-none" value="@product.Id" type="text">
+                    </div>
+                }
+            </div>
+        }
+    </form>
+</div>

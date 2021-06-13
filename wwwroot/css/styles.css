@@ -82,11 +82,35 @@ body {
     word-break: break-all;
 }
 
+.product-card-sm {
+    width: 240px;
+    height: 400px;
+    word-break: break-all;
+}
+
 .product-description {
     height: 100px;
-    overflow-y: scroll;
+    font-size: 14px;
+}
+
+.product-description-sm {
+    height: 60px;
+    font-size: 13px;
 }
 
 .product-image {
     height: 190px;
+}
+
+.product-image-sm {
+    height: 150px;
+}
+
+.scrollable::-webkit-scrollbar {
+    width: 0;
+}
+
+.scrollable {
+    overflow-y: scroll;
+    -ms-overflow-style: none;
 }

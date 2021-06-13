@@ -71,7 +71,7 @@
                             <a class="nav-link font-size-18 text-dark mr-2" href="Profile/Basket">
                                 <i class="fa fa-shopping-cart"></i>
                                 Корзина
-                                <span class="basketCounter badge bg-primary rounded-pill text-light d-none"></span>
+                                <span id="basketCounter" class="badge bg-primary rounded-pill text-light d-none"></span>
                             </a>
                             <a class="btn btn-primary mr-sm-2" asp-controller="Account" asp-action="Register">Регистрация</a>
                             <a class="btn btn-primary" asp-controller="Account" asp-action="Login">Войти</a>
@@ -94,7 +94,9 @@
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/js-cookie/js.cookie.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/basket-cookie.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

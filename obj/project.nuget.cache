@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "DZvooMD5UYr9GCVPzA81ra49gIdqs96kslV7jWDZF1XTaKeaEXHuBYinI0+SUVJObUd6hZwoAi7FU5IUPfMzkw==",
+  "dgSpecHash": "VAxM/ME1feteNqEyvvXFtnVQGC4X08VGfUNXfXc5RuWT/WwpnRIv99kVXkGRLKbMBQwRR0OninzuLgK9ls6wVg==",
   "success": true,
   "projectFilePath": "D:\\Repository\\Visual Studio 2019\\C#\\.Net Core ASP\\FoodService\\FoodService.csproj",
   "expectedPackageFiles": [
@@ -82,7 +82,7 @@
     "C:\\Users\\Roman\\.nuget\\packages\\microsoft.win32.registry\\4.7.0\\microsoft.win32.registry.4.7.0.nupkg.sha512",
     "C:\\Users\\Roman\\.nuget\\packages\\microsoft.win32.systemevents\\4.7.0\\microsoft.win32.systemevents.4.7.0.nupkg.sha512",
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\netstandard.library\\1.6.1\\netstandard.library.1.6.1.nupkg.sha512",
-    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\newtonsoft.json\\11.0.2\\newtonsoft.json.11.0.2.nupkg.sha512",
+    "C:\\Users\\Roman\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512",
     "C:\\Users\\Roman\\.nuget\\packages\\npgsql\\5.0.5\\npgsql.5.0.5.nupkg.sha512",
     "C:\\Users\\Roman\\.nuget\\packages\\npgsql.entityframeworkcore.postgresql\\5.0.6\\npgsql.entityframeworkcore.postgresql.5.0.6.nupkg.sha512",
     "C:\\Users\\Roman\\.nuget\\packages\\npgsql.entityframeworkcore.postgresql.design\\1.1.0\\npgsql.entityframeworkcore.postgresql.design.1.1.0.nupkg.sha512",

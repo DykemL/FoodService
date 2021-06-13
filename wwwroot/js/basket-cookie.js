@@ -1,10 +1,10 @@
 ﻿window.onload = () => {
-	var productsObject = JSON.parse(localStorage.getItem("productsBasketObject"));
-	if (productsObject == null) {
+	let productsObject = getProductCookie();
+	if (productsObject == null || productsObject == undefined) {
 		productsObject = {
 			productIds: []
 		}
-		localStorage.setItem("productsBasketObject", JSON.stringify(productsObject));
+		setProductCookie(productsObject);
 	}
 	updateBusketCounter();
 	let addToBasketButtons = document.querySelectorAll('.btn-add-to-basket');
@@ -15,6 +15,7 @@
 		else
 			setAddButtonStatus(addToBasketButtons[i])
 		addToBasketButtons[i].addEventListener("click", () => {
+			let productsObject = getProductCookie();
 			let productId = addToBasketButtons[i].getAttribute('data-productId');
 			if (addToBasketButtons[i].classList.contains("btn-primary") && !productsObject.productIds.includes(productId)) {
 				productsObject.productIds.push(productId);
@@ -24,7 +25,7 @@
 				productsObject.productIds.splice(productsObject.productIds.indexOf(productId), 1);
 				switchButtonStatus(addToBasketButtons[i]);
 			}
-			localStorage.setItem("productsBasketObject", JSON.stringify(productsObject));
+			setProductCookie(productsObject);
 			updateBusketCounter();
 		});
 	}
@@ -53,7 +54,8 @@ function setDeleteButtonStatus(button) {
 
 function updateBusketCounter() {
 	let basketCounter = document.getElementById("basketCounter");
-	let productsObject = JSON.parse(localStorage.getItem("productsBasketObject"));
+	let productsObject = getProductCookie();
+	console.log(productsObject);
 	if (basketCounter != null) {
 		basketCounter.innerText = productsObject.productIds.length;
 		if (productsObject.productIds.length > 0)
@@ -63,4 +65,13 @@ function updateBusketCounter() {
 	}
 	else
 		basketCounter.classList.add('d-none');
+}
+
+function setProductCookie(object) {
+	//Cookies.set('productsBasketJson', JSON.stringify(object), { expires = 365, path = '/' });
+	Cookies.set('productsBasketJson', JSON.stringify(object), { path: '/', expires: 365 });
+}
+
+function getProductCookie() {
+	return JSON.parse(Cookies.get('productsBasketJson'));
 }
