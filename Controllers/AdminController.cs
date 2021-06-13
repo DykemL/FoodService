@@ -19,7 +19,7 @@ using System.Threading.Tasks;
 
 namespace FoodService.Controllers
 {
-    [Authorize(Policy = "AdminOrHigher")]
+    [Authorize(Policy = "ManagerOrHigher")]
     public class AdminController : Controller
     {
         UserManager<AppUser> userManager;
@@ -44,6 +44,7 @@ namespace FoodService.Controllers
             this.hostApplicationLifetime = hostApplicationLifetime;
             this.appEnvironment = appEnvironment;
         }
+        [Authorize(Policy = "AdminOrHigher")]
         public async Task<IActionResult> Users()
         {
             List<AppUser> users = userManager.Users.ToList();
@@ -61,6 +62,7 @@ namespace FoodService.Controllers
             return View(usersInfo);
         }
         [HttpGet]
+        [Authorize(Policy = "AdminOrHigher")]
         public async Task<IActionResult> BanUser(string userId)
         {
             AppUser user = await userManager.FindByIdAsync(userId);
@@ -81,6 +83,7 @@ namespace FoodService.Controllers
             return RedirectToAction("Users");
         }
         [HttpGet]
+        [Authorize(Policy = "AdminOrHigher")]
         public async Task<IActionResult> UnbanUser(string userId)
         {
             AppUser user = await userManager.FindByIdAsync(userId);
@@ -95,6 +98,7 @@ namespace FoodService.Controllers
             return RedirectToAction("Users");
         }
         [HttpGet]
+        [Authorize(Policy = "AdminOrHigher")]
         public async Task<IActionResult> ChangeRole(string userId, string roleName)
         {
             AppUser user = await userManager.FindByIdAsync(userId);
@@ -117,14 +121,17 @@ namespace FoodService.Controllers
             }
             return RedirectToAction("Users");
         }
+        [Authorize(Policy = "AdminOrHigher")]
         public IActionResult Controls()
         {
             return View();
         }
+        [Authorize(Policy = "AdminOrHigher")]
         public IActionResult RestartServer()
         {
             return RedirectToAction("Controls");
         }
+        [Authorize(Policy = "AdminOrHigher")]
         public IActionResult DbBackup()
         {
             string pgDumpPath = @"D:\Programs\PostgreSQL\bin\pg_dump";
@@ -133,6 +140,7 @@ namespace FoodService.Controllers
             MessageUtils.SetSuccessMessage(TempData, "Резервная копия успешно создана");
             return RedirectToAction("Controls");
         }
+        [Authorize(Policy = "AdminOrHigher")]
         public IActionResult DbRestore()
         {
             string pgRestorePath = @"D:\Programs\PostgreSQL\bin\pg_restore";

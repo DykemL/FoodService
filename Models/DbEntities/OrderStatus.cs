@@ -11,5 +11,6 @@ namespace FoodService.Models.DbEntities
         [Key]
         public int Id { get; set; }
         public string Status { get; set; }
+        public string StatusLocale { get; set; }
     }
 }

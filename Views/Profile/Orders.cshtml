@@ -1,0 +1,31 @@
+﻿@using FoodService.Utils
+@model IEnumerable<FoodService.Models.DbEntities.Order>
+<div class="container mt-5">
+    <h4>Заказы: </h4>
+    <div>
+        @if (Model.Count() == 0)
+        {
+            <h4 class='text-center fst-italic' style='text-decoration: underline;'>Пусто</h4>
+        }
+        @foreach (var order in Model)
+        {
+            <div class="bg-gray mt-2 p-3">
+                <div>Дата: @order.OrderTime.ToLocalTime().ToString() </div>
+                <div>
+                    Товары: 
+                    <div>
+                        @foreach (var pack in order.ProductPacks)
+                        {
+                            <span><a href="/Home/Product?">@pack.Product.Name</a>(@pack.Count)</span>
+                        }
+                    </div>
+                </div>
+                <div class="font-weight-bold @OrdersUtils.OrderStatusStyles[order.OrderStatus.Status]">
+                    Статус: @order.OrderStatus.StatusLocale
+                </div>
+                @*<a class="btn btn-sm btn-primary" data-type="give_feedback" data-toggle="modal" data-target="#giveFeedbackModal"
+                   data-product-id="<?=$order['product_id']?>">Оставить отзыв</a>*@
+            </div>
+        }
+    </div>
+</div>

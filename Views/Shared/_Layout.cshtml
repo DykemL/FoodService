@@ -38,9 +38,14 @@
                                 </button>
                                 <div class="dropdown-menu dropdown-menu-lg-right" aria-labelledby="dropdownMenuButton">
                                     <a class="dropdown-item" href="#">Профиль</a>
+                                    <a class="dropdown-item" href="/Profile/Orders">Заказы</a>
                                     @if (User.IsInRole("Admin") || User.IsInRole("SuperAdmin"))
                                     {
                                         <a class="dropdown-item" asp-controller="Admin" asp-action="Users">Панель администратора</a>
+                                    }
+                                    else if (User.IsInRole("Manager"))
+                                    {
+                                        <a class="dropdown-item" asp-controller="Admin" asp-action="Products">Панель менеджера</a>
                                     }
                                     <a class="dropdown-item" asp-controller="Account" asp-action="Logout">Выйти</a>
                                 </div>

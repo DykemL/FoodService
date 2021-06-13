@@ -19,7 +19,7 @@ namespace FoodService
         public static async Task Main(string[] args)
         {
             var host = CreateHostBuilder(args).Build();
-            //await InitializeDatabase(host);
+            await InitializeDatabase(host);
             host.Run();
         }
 

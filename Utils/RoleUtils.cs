@@ -5,7 +5,15 @@ using System.Threading.Tasks;
 
 namespace FoodService.Utils
 {
-    public class RoleUtils
+    public static class RoleUtils
     {
+        public static HashSet<string> AdminOrHigherSet = new() 
+        { 
+            "Admin", "SuperAdmin"
+        };
+        public static HashSet<string> ManagerOrHigherSet = new()
+        {
+            "Manager", "Admin", "SuperAdmin"
+        };
     }
 }

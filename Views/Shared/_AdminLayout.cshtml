@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using FoodService.Utils
+
+<!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="utf-8" />
@@ -16,21 +18,27 @@
 
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <ul class="navbar-nav mr-auto sidenav" id="navAccordion">
-                    <li class="nav-item">
-                        <a class="nav-link" asp-controller="Admin" asp-action="Users">Пользователи</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" asp-controller="Admin" asp-action="Controls">Управление сервером</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" asp-controller="Admin" asp-action="Products">Товары</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/manager/orders_confirm">Подтверждение заказов</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/manager/handled_orders_list">История заказов</a>
-                    </li>
+                    @if (RoleUtils.AdminOrHigherSet.Any(role => User.IsInRole(role)))
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Admin" asp-action="Users">Пользователи</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Admin" asp-action="Controls">Управление сервером</a>
+                        </li>
+                    }
+                    @if (RoleUtils.ManagerOrHigherSet.Any(role => User.IsInRole(role)))
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Admin" asp-action="Products">Товары</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/manager/orders_confirm">Подтверждение заказов</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/manager/handled_orders_list">История заказов</a>
+                        </li>
+                    }
                 </ul>
                 <ul class="navbar-nav ml-auto font-size-18">
                     <li class="nav-item ml-2 text-light">

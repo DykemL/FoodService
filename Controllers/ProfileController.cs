@@ -71,5 +71,20 @@ namespace FoodService.Controllers
             HttpContext.Response.Cookies.Append("productsBasketJson", "");
             return RedirectToAction("Basket");
         }
+        public IActionResult Orders()
+        {
+            List<Order> orders = appDbContext.Orders
+                .Include(o => o.OrderStatus)
+                .Include(o => o.User)
+                .Where(o => o.User.UserName == User.Identity.Name)
+                .ToList();
+            List<ProductPack> packs = appDbContext.ProductPacks
+                .Include(pack => pack.Order)
+                .Include(pack => pack.Product)
+                .ToList();
+            foreach (var order in orders)
+                order.ProductPacks = packs.Where(pack => pack.Order == order).ToList();
+            return View(orders);
+        }
     }
 }
