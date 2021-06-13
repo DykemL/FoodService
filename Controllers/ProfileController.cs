@@ -43,6 +43,8 @@ namespace FoodService.Controllers
             appDbContext.Orders.Add(order);
             for (int i = 0; i < model.ProductId.Length; i++)
             {
+                if (!int.TryParse(model.ProductsCount[i], out int count))
+                    count = 1;
                 ProductPack pack = new() { ProductId = int.Parse(model.ProductId[i]),
                     Count = int.Parse(model.ProductsCount[i]),
                     Order = order
