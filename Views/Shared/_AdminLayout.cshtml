@@ -43,7 +43,7 @@
                 <ul class="navbar-nav ml-auto font-size-18">
                     <li class="nav-item ml-2 text-light">
                         <i class="fa fa-user-circle"></i>
-                        @User.Identity.Name
+                        @User.Identity.Name (Роль - <span class="@RoleUtils.RoleStyles[ViewBag.UserRole]">@ViewBag.UserRole</span>)
                     </li>
                 </ul>
             </div>

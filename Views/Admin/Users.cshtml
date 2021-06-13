@@ -1,4 +1,5 @@
-﻿@model FoodService.Models.ViewModels.UsersViewModel
+﻿@using FoodService.Utils
+@model FoodService.Models.ViewModels.UsersViewModel
 @{
     Layout = "_AdminLayout";
     ViewBag.Title = "Пользователи";
@@ -28,18 +29,7 @@
                 <th scope='row'>@counter</th>
                 <td>@pair.User.UserName</td>
                 <td>@pair.User.Email</td>
-                @if (pair.Role == "Admin")
-                {
-                    <td class="text-primary">@pair.Role</td>
-                }
-                else if (pair.Role == "SuperAdmin")
-                {
-                    <td class="text-danger">@pair.Role</td>
-                }
-                else
-                {
-                    <td class="text-secondary">@pair.Role</td>
-                }
+                <td class="@RoleUtils.RoleStyles[pair.Role]">@pair.Role</td>
                 <td>
                     <div class="row ml-auto">
                         @{

@@ -1,6 +1,7 @@
 using FoodService.Models;
 using FoodService.Models.DbEntities;
 using FoodService.Services;
+using FoodService.Utils;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -69,7 +70,6 @@ namespace FoodService
             });
 
             services.AddScoped<IUserService<AppUser>, UserService<AppUser>>();
-
             services.AddControllersWithViews();
         }
 
@@ -90,7 +90,6 @@ namespace FoodService
             app.UseStaticFiles();
 
             app.UseRouting();
-
             app.UseAuthentication();
             app.UseAuthorization();
             

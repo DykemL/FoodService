@@ -44,9 +44,17 @@ namespace FoodService.Controllers
             this.hostApplicationLifetime = hostApplicationLifetime;
             this.appEnvironment = appEnvironment;
         }
+
+        private async Task InitCurrentUserRole()
+        {
+            IList<string> roles = await userManager.GetRolesAsync(userManager.Users.Where(user => user.UserName == User.Identity.Name).FirstOrDefault());
+            ViewBag.UserRole = roles.FirstOrDefault();
+        }
+
         [Authorize(Policy = "AdminOrHigher")]
         public async Task<IActionResult> Users()
         {
+            await InitCurrentUserRole();
             List<AppUser> users = userManager.Users.ToList();
             UsersViewModel usersInfo = new();
             foreach (var user in users)
@@ -122,8 +130,9 @@ namespace FoodService.Controllers
             return RedirectToAction("Users");
         }
         [Authorize(Policy = "AdminOrHigher")]
-        public IActionResult Controls()
+        public async Task<IActionResult> Controls()
         {
+            await InitCurrentUserRole();
             return View();
         }
         [Authorize(Policy = "AdminOrHigher")]
@@ -149,8 +158,9 @@ namespace FoodService.Controllers
             MessageUtils.SetSuccessMessage(TempData, "База данных успешно восстановлена");
             return RedirectToAction("Controls");
         }
-        public IActionResult Products()
+        public async Task<IActionResult> Products()
         {
+            await InitCurrentUserRole();
             List<Product> products = appDbContext.Products
                 .Include(product => product.Image)
                 .Include(product => product.Shop)
