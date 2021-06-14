@@ -23,7 +23,7 @@
 <table class="table table-sm mt-2">
     <thead>
         <tr>
-            <th>#</th>
+            <th>Id</th>
             <th>Название</th>
             <th width="370px" style="word-wrap: break-word">Описание</th>
             <th>Магазин</th>
@@ -36,11 +36,11 @@
         @foreach (var product in Model)
         {
             <tr>
-                <th scope='row'>@counter</th>
-                <td>@product.Name</td>
+                <th scope='row'>@product.Id</th>
+                <td><a href="/Home/Product?productId=@product.Id">@product.Name</a></td>
                 <td style="word-break: break-all;">@product.Description</td>
                 <th style="font-weight: normal">@product.Shop.Name</th>
-                <th>@product.Price&#8381</th>
+                <th>@product.Price<i class="fa fa-rub"></i></th>
                 <td>
                     <span type="button" class="cursor-pointer text-info image-link" data-toggle="modal" data-target="#showImage" data-imageLink="@product.Image.Path">
                         <i class="fa fa-image"></i>
@@ -50,7 +50,7 @@
                 <td>
                     <div class="row ml-auto">
                         <a class="btn btn-sm btn-danger cursor-pointer" type="button" href="/Admin/DeleteProduct?productId=@product.Id">Удалить</a>
-                        <a class="btn btn-sm btn-secondary cursor-pointer" type="button" href="/Admin/ChangeProduct">Изменить</a>
+                        <button class="btn btn-sm btn-secondary change-product-button" data-toggle="modal" data-target="#changeProductModal" type="button">Изменить</button>
                     </div>
                 </td>
             </tr>
@@ -71,17 +71,16 @@
             </div>
             <form asp-controller="Admin" asp-action="AddProduct" method="post" enctype="multipart/form-data">
                 <div class="modal-body">
-
                     <div class="form-group">
                         <label for="productName">Название</label>
                         <input type="text" class="form-control" id="productName" name="name">
                     </div>
                     <div class="form-group">
                         <label for="productDescription">Описание</label>
-                        <textarea type="text" class="form-control" id="productDescription" name="description"></textarea>
+                        <textarea type="text" rows="4" class="form-control" id="productDescription" name="description"></textarea>
                     </div>
                     <div class="form-group">
-                        <label for="productPrice">Стоимость</label>
+                        <label for="productPrice">Цена</label>
                         <input type="text" class="form-control" id="productPrice" name="price">
                     </div>
                     <div class="form-group">
@@ -96,6 +95,48 @@
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-primary">Добавить</button>
                 </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal change product -->
+<div class="modal fade" id="changeProductModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Изменение товара</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form asp-controller="Admin" asp-action="ChangeProduct" method="post" enctype="multipart/form-data">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="productName">Название</label>
+                        <input type="text" class="form-control" id="productNameChange" name="name">
+                    </div>
+                    <div class="form-group">
+                        <label for="productDescription">Описание</label>
+                        <textarea rows="4" type="text" class="form-control" id="productDescriptionChange" name="description"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="productPrice">Цена</label>
+                        <input type="text" class="form-control" id="productPriceChange" name="price">
+                    </div>
+                    <div class="form-group">
+                        <label for="productShopName">Название магазина</label>
+                        <input type="text" class="form-control" id="productShopNameChange" name="shopName">
+                    </div>
+                    <div class="form-group">
+                        <label for="productImage">Картинка <small class="text-secondary">(если вы не хотите менять картинку, оставьте поле пустым)</small></label>
+                        <input type="file" class="form-control-file" id="productImageChange" name="image">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Изменить</button>
+                </div>
+                <input class="d-none" id="productIdChange" name="productId">
             </form>
         </div>
     </div>

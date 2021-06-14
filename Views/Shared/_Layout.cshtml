@@ -37,7 +37,7 @@
                                     <span>@User.Identity.Name</span>
                                 </button>
                                 <div class="dropdown-menu dropdown-menu-lg-right" aria-labelledby="dropdownMenuButton">
-                                    <a class="dropdown-item" href="#">Профиль</a>
+                                    <a class="dropdown-item d-none" href="#">Профиль</a>@*ToDo*@
                                     <a class="dropdown-item" href="/Profile/Orders">Заказы</a>
                                     @if (User.IsInRole("Admin") || User.IsInRole("SuperAdmin"))
                                     {

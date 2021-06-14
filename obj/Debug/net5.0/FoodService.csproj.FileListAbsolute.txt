@@ -168,3 +168,6 @@ D:\Repository\Visual Studio 2019\C#\.Net Core ASP\FoodService\obj\Debug\net5.0\R
 D:\Repository\Visual Studio 2019\C#\.Net Core ASP\FoodService\obj\Debug\net5.0\Razor\Views\Profile\Index.cshtml.g.cs
 D:\Repository\Visual Studio 2019\C#\.Net Core ASP\FoodService\obj\Debug\net5.0\Razor\Views\Profile\Basket.cshtml.g.cs
 D:\Repository\Visual Studio 2019\C#\.Net Core ASP\FoodService\obj\Debug\net5.0\Razor\Views\Profile\Orders.cshtml.g.cs
+D:\Repository\Visual Studio 2019\C#\.Net Core ASP\FoodService\obj\Debug\net5.0\Razor\Views\Admin\OrdersList.cshtml.g.cs
+D:\Repository\Visual Studio 2019\C#\.Net Core ASP\FoodService\obj\Debug\net5.0\Razor\Views\Home\Product.cshtml.g.cs
+D:\Repository\Visual Studio 2019\C#\.Net Core ASP\FoodService\obj\Debug\net5.0\Razor\Views\Admin\OrdersHistory.cshtml.g.cs

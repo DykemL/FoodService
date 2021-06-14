@@ -47,9 +47,12 @@ namespace FoodService.Controllers
 
         private async Task InitCurrentUserRole()
         {
-            IList<string> roles = await userManager.GetRolesAsync(userManager.Users.Where(user => user.UserName == User.Identity.Name).FirstOrDefault());
+            IList<string> roles = await userManager.GetRolesAsync(userManager.Users
+                .Where(user => user.UserName == User.Identity.Name)
+                .FirstOrDefault());
             ViewBag.UserRole = roles.FirstOrDefault();
         }
+        [HttpGet]
 
         [Authorize(Policy = "AdminOrHigher")]
         public async Task<IActionResult> Users()
@@ -129,6 +132,7 @@ namespace FoodService.Controllers
             }
             return RedirectToAction("Users");
         }
+        [HttpGet]
         [Authorize(Policy = "AdminOrHigher")]
         public async Task<IActionResult> Controls()
         {
@@ -158,6 +162,7 @@ namespace FoodService.Controllers
             MessageUtils.SetSuccessMessage(TempData, "База данных успешно восстановлена");
             return RedirectToAction("Controls");
         }
+        [HttpGet]
         public async Task<IActionResult> Products()
         {
             await InitCurrentUserRole();
@@ -227,6 +232,93 @@ namespace FoodService.Controllers
             }
             MessageUtils.SetSuccessMessage(TempData, "Продукт успешно удалён");
             return RedirectToAction("Products");
+        }
+        [HttpPost]
+        public async Task<IActionResult> ChangeProduct(int productId, string name, string description, string price, string shopName, IFormFile image)
+        {
+            if (name == "" || name == null)
+                MessageUtils.SetError(TempData, "Вы не ввели название товара");
+            else if (!double.TryParse(price, out double doublePrice))
+                MessageUtils.SetError(TempData, "Неверный формат цены. Используйте число");
+            else
+            {
+                Shop shop = appDbContext.Shops.Where(shop => shop.Name == shopName).FirstOrDefault();
+                if (shop == null)
+                {
+                    shop = new Shop() { Name = shopName };
+                    await appDbContext.Shops.AddAsync(shop);
+                }
+
+                Product product = appDbContext.Products.Where(product => product.Id == productId).FirstOrDefault();
+                product.Name = name;
+                product.Description = description;
+                product.Price = doublePrice;
+
+                if (image != null && image.FileName != "DefaultImage.jpg")
+                {
+                    string path = "/Images/" + image.FileName;
+                    using (var fileStream = new FileStream(appEnvironment.WebRootPath + path, FileMode.Create))
+                    {
+                        await image.CopyToAsync(fileStream);
+                    }
+                    LocalImage imageModel = new() { Name = image.FileName, Path = path };
+                    appDbContext.Images.Add(imageModel);
+                    product.Image = imageModel;
+                }
+                MessageUtils.SetSuccessMessage(TempData, "Продукт успешно изменён");
+                appDbContext.SaveChanges();
+            }
+            return RedirectToAction("Products");
+        }
+        [HttpGet]
+        public async Task<IActionResult> OrdersList()
+        {
+            await InitCurrentUserRole();
+            List<Order> orders = appDbContext.Orders
+                .Include(o => o.OrderStatus)
+                .Include(o => o.User)
+                .Where(order => order.OrderStatusId == 1)
+                .OrderByDescending(order => order.OrderTimeStart)
+                .ToList();
+            List<ProductPack> packs = appDbContext.ProductPacks
+                .Include(pack => pack.Order)
+                .Include(pack => pack.Product)
+                .ToList();
+            foreach (var order in orders)
+                order.ProductPacks = packs.Where(pack => pack.Order == order).ToList();
+            return View(orders);
+        }
+        public async Task<IActionResult> OrderConfirm(string orderId)
+        {
+            Order order = appDbContext.Orders.Where(order => order.Id == int.Parse(orderId)).FirstOrDefault();
+            order.OrderStatusId = 2;
+            order.OrderTimeEnd = DateTime.UtcNow;
+            await appDbContext.SaveChangesAsync();
+            return RedirectToAction("OrdersList");
+        }
+        public async Task<IActionResult> OrderReject(string orderId)
+        {
+            Order order = appDbContext.Orders.Where(order => order.Id == int.Parse(orderId)).FirstOrDefault();
+            order.OrderStatusId = 3;
+            await appDbContext.SaveChangesAsync();
+            return RedirectToAction("OrdersList");
+        }
+        [HttpGet]
+        public async Task<IActionResult> OrdersHistory()
+        {
+            await InitCurrentUserRole();
+            List<Order> orders = appDbContext.Orders
+                .Include(o => o.OrderStatus)
+                .Include(o => o.User)
+                .OrderByDescending(o => o.OrderTimeStart)
+                .ToList();
+            List<ProductPack> packs = appDbContext.ProductPacks
+                .Include(pack => pack.Order)
+                .Include(pack => pack.Product)
+                .ToList();
+            foreach (var order in orders)
+                order.ProductPacks = packs.Where(pack => pack.Order == order).ToList();
+            return View(orders);
         }
     }
 }

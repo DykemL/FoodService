@@ -23,7 +23,7 @@
                         <li class="nav-item">
                             <a class="nav-link" asp-controller="Admin" asp-action="Users">Пользователи</a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item d-none">@*ToDo*@
                             <a class="nav-link" asp-controller="Admin" asp-action="Controls">Управление сервером</a>
                         </li>
                     }
@@ -33,10 +33,10 @@
                             <a class="nav-link" asp-controller="Admin" asp-action="Products">Товары</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/manager/orders_confirm">Подтверждение заказов</a>
+                            <a class="nav-link" asp-controller="Admin" asp-action="OrdersList">Подтверждение заказов</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/manager/handled_orders_list">История заказов</a>
+                            <a class="nav-link" asp-controller="Admin" asp-action="OrdersHistory">История заказов</a>
                         </li>
                     }
                 </ul>

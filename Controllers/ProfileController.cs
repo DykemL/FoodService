@@ -52,7 +52,7 @@ namespace FoodService.Controllers
         public async Task<IActionResult> BuyProducts(ProductDtoModel model)
         {
             AppUser user = appDbContext.Users.Where(user => user.UserName == User.Identity.Name).FirstOrDefault();
-            Order order = new() { OrderStatusId = 1, OrderTime = DateTime.UtcNow, User = user};
+            Order order = new() { OrderStatusId = 1, OrderTimeStart = DateTime.UtcNow, User = user};
             appDbContext.Orders.Add(order);
             for (int i = 0; i < model.ProductId.Length; i++)
             {

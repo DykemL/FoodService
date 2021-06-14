@@ -15,6 +15,7 @@ namespace FoodService.Models.DbEntities
         public AppUser User { get; set; }
         public int OrderStatusId { get; set; }
         public OrderStatus OrderStatus { get; set; }
-        public DateTime OrderTime { get; set; }
+        public DateTime OrderTimeStart { get; set; }
+        public DateTime? OrderTimeEnd { get; set; }
     }
 }

@@ -14,7 +14,7 @@ else
             <div class="card product-card mt-3 ml-3">
                 <img class="product-image" src="@product.Image.Path" alt="Картинка">
                 <div class="card-body">
-                    <h5>@product.Name</h5>
+                    <a class="h5" href="/Home/Product?productId=@product.Id">@product.Name</a>
                     <div class="small text-secondary">@product.Shop.Name</div>
                     <div class="product-description scrollable" style="">@product.Description</div>
                     <div class="font-weight-bold mt-1">@product.Price&#8381</div>

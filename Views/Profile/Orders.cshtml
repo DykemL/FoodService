@@ -10,13 +10,13 @@
         @foreach (var order in Model)
         {
             <div class="bg-gray mt-2 p-3">
-                <div>Дата: @order.OrderTime.ToLocalTime().ToString() </div>
+                <div>Дата: @order.OrderTimeStart.ToLocalTime().ToString() </div>
                 <div>
                     Товары: 
                     <div>
                         @foreach (var pack in order.ProductPacks)
                         {
-                            <span><a href="/Home/Product?">@pack.Product.Name</a>(@pack.Count)</span>
+                            <span><a href="/Home/Product?productId=@pack.Product.Id">@pack.Product.Name</a>(@pack.Count)</span>
                         }
                     </div>
                 </div>

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -39,21 +40,48 @@ namespace FoodService.Controllers
             else
             {
                 products = appDbContext.Products
+                .Where(product => product.Name.ToLower().Contains(filterByName.ToLower()))
                 .Include(product => product.Image)
                 .Include(product => product.Shop)
-                .Where(product => product.Name.ToLower().Contains(filterByName.ToLower()))
                 .ToList();
             }
 
             return View(products);
         }
 
-        public async Task<IActionResult> Privacy()
+        public IActionResult Privacy()
         {
-            AppUser user = await userManager.FindByNameAsync("Admin");
-            await userManager.RemoveFromRolesAsync(user, await userManager.GetRolesAsync(user));
-            await userManager.AddToRolesAsync(user, new string[] { "Admin" });
             return View();
+        }
+
+        public IActionResult Product(string productId)
+        {
+            Product product = null;
+            bool isInBasket = false;
+            if (productId == null)
+                return View(new Tuple<Product, bool>(product, isInBasket));
+            product = appDbContext.Products
+                .Where(product => product.Id == int.Parse(productId))
+                .Include(product => product.Image)
+                .Include(product => product.Shop)
+                .FirstOrDefault();
+
+            if (HttpContext.Request.Cookies.TryGetValue("productsBasketJson", out string strJObject))
+            {
+                JObject jObject;
+                try
+                {
+                    jObject = JObject.Parse(strJObject);
+                }
+                catch
+                {
+                    return View(new Tuple<Product, bool>(null, false));
+                }
+                int[] ids = jObject.First.First.ToObject<int[]>();
+                if (ids.Contains(product.Id))
+                    isInBasket = true;
+            }
+            return View(new Tuple<Product, bool>(product, isInBasket));
         }
 
         public IActionResult AddUser()

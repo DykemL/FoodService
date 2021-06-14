@@ -1,0 +1,25 @@
+﻿@model Tuple<FoodService.Models.DbEntities.Product, bool>
+@{
+    ViewData["Title"] = "Главная";
+}
+
+<div class="container">
+    @if (Model == null)
+    {
+        <h4 class="text-dark">Такого товара не найдено</h4>
+    }
+    else
+    {
+        <div class="p-3 mt-5">
+            <img class="product-image" src="@Model.Item1.Image.Path" alt="Картинка">
+            <h3 class="font-weight-bold text-info">@Model.Item1.Name</h3>
+            <h5 class="mt-2">Цена: <span class="text-warning">@Model.Item1.Price<i class="fa fa-rub"></i></span></h5>
+            <h5 class="mt-2">Описание:</h5>
+            <p>@Model.Item1.Description</p>
+            <button class="btn btn-add-to-basket" data-productId="@Model.Item1.Id">
+                <i class='fa fa-shopping-cart'></i>
+                Добавить в корзину
+            </button>
+        </div>
+    }
+</div>
