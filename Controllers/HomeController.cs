@@ -27,26 +27,17 @@ namespace FoodService.Controllers
             this.appDbContext = appDbContext;
         }
 
-        public IActionResult Index(string filterByName = null)
+        public IActionResult Index(string nameFilter = null, string shopFilter = null)
         {
-            List<Product> products;
-            if (filterByName == null)
-            {
-                products = appDbContext.Products
+            IEnumerable<Product> products = appDbContext.Products
                 .Include(product => product.Image)
-                .Include(product => product.Shop)
-                .ToList();
-            }
-            else
-            {
-                products = appDbContext.Products
-                .Where(product => product.Name.ToLower().Contains(filterByName.ToLower()))
-                .Include(product => product.Image)
-                .Include(product => product.Shop)
-                .ToList();
-            }
+                .Include(product => product.Shop);
+            if (nameFilter != null)
+                products = products.Where(product => product.Name.ToLower().Contains(nameFilter.ToLower())).ToList();
+            if (shopFilter != null)
+                products = products.Where(product => product.Shop.Name.ToLower().Contains(shopFilter.ToLower())).ToList();
 
-            return View(products);
+            return View(products.ToList());
         }
 
         public IActionResult Privacy()

@@ -2,6 +2,16 @@
 @{
     ViewData["Title"] = "Главная";
 }
+<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuSearchButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    <i class="fa fa-filter"></i>
+</button>
+<div class="dropdown-menu dropdown-menu-lg-right p-2" aria-labelledby="dropdownMenuSearchButton">
+    <span class="small text-secondary">Название</span>
+    <input id="nameFilter" class="form-control form-control-sm" type="text"/>
+    <span class="small text-secondary">Магазин</span>
+    <input id="shopFilter" class="form-control form-control-sm" type="text"/>
+    <button id="filterButton" class="btn btn-success btn-sm mt-2">Применить</button>
+</div>
 @if (Model.Count() == 0)
 {
     <h4 class="text-dark">Товаров не найдено</h4>
@@ -26,4 +36,9 @@ else
             </div>
         }
     </div>
+}
+
+@section Scripts
+{
+    <script src="~/js/home-index.js"></script>
 }
