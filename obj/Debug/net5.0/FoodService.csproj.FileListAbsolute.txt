@@ -9,7 +9,6 @@ D:\Repository\Visual Studio 2019\C#\.Net Core ASP\FoodService\bin\Debug\net5.0\r
 D:\Repository\Visual Studio 2019\C#\.Net Core ASP\FoodService\bin\Debug\net5.0\FoodService.pdb
 D:\Repository\Visual Studio 2019\C#\.Net Core ASP\FoodService\bin\Debug\net5.0\FoodService.Views.dll
 D:\Repository\Visual Studio 2019\C#\.Net Core ASP\FoodService\bin\Debug\net5.0\FoodService.Views.pdb
-D:\Repository\Visual Studio 2019\C#\.Net Core ASP\FoodService\obj\Debug\net5.0\FoodService.csprojAssemblyReference.cache
 D:\Repository\Visual Studio 2019\C#\.Net Core ASP\FoodService\obj\Debug\net5.0\FoodService.GeneratedMSBuildEditorConfig.editorconfig
 D:\Repository\Visual Studio 2019\C#\.Net Core ASP\FoodService\obj\Debug\net5.0\FoodService.AssemblyInfoInputs.cache
 D:\Repository\Visual Studio 2019\C#\.Net Core ASP\FoodService\obj\Debug\net5.0\FoodService.AssemblyInfo.cs
@@ -171,3 +170,5 @@ D:\Repository\Visual Studio 2019\C#\.Net Core ASP\FoodService\obj\Debug\net5.0\R
 D:\Repository\Visual Studio 2019\C#\.Net Core ASP\FoodService\obj\Debug\net5.0\Razor\Views\Admin\OrdersList.cshtml.g.cs
 D:\Repository\Visual Studio 2019\C#\.Net Core ASP\FoodService\obj\Debug\net5.0\Razor\Views\Home\Product.cshtml.g.cs
 D:\Repository\Visual Studio 2019\C#\.Net Core ASP\FoodService\obj\Debug\net5.0\Razor\Views\Admin\OrdersHistory.cshtml.g.cs
+D:\Repository\Visual Studio 2019\C#\.Net Core ASP\FoodService\obj\Debug\net5.0\Razor\Views\Account\Payment.cshtml.g.cs
+D:\Repository\Visual Studio 2019\C#\.Net Core ASP\FoodService\bin\Debug\net5.0\web.config

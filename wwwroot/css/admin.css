@@ -53,11 +53,8 @@
 }
 
 @media (max-width: 991px) {
-    .navbar {
-        display: block;
-        position: relative;
-        height: 120px;
-        margin-bottom: 0.5rem;
+    #bodyContent {
+        margin-top: 0.5rem;
     }
 }
 

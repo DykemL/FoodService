@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/lib/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="~/css/styles.css" />
+    @await RenderSectionAsync("Styles", required: false)
 </head>
 <body>
     @if (User.Identity.IsAuthenticated)
@@ -26,7 +27,7 @@
                             </li>
                         </ul>
                         <div class="navbar-nav">
-                            <a class="nav-link font-size-18 text-dark mr-2" href="Profile/Basket">
+                            <a class="nav-link font-size-18 text-dark mr-2" href="/Profile/Basket">
                                 <i class="fa fa-shopping-cart"></i>
                                 Корзина
                                 <span id="basketCounter" class="badge bg-primary rounded-pill text-light d-none"></span>
@@ -73,7 +74,7 @@
                             </li>
                         </ul>
                         <div class="navbar-nav">
-                            <a class="nav-link font-size-18 text-dark mr-2" href="Profile/Basket">
+                            <a class="nav-link font-size-18 text-dark mr-2" href="/Profile/Basket">
                                 <i class="fa fa-shopping-cart"></i>
                                 Корзина
                                 <span id="basketCounter" class="badge bg-primary rounded-pill text-light d-none"></span>

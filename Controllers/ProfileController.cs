@@ -1,6 +1,7 @@
 ﻿using FoodService.Models;
 using FoodService.Models.DbEntities;
 using FoodService.Models.DtoModels;
+using FoodService.Utils;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -51,6 +52,7 @@ namespace FoodService.Controllers
         [HttpPost]
         public async Task<IActionResult> BuyProducts(ProductDtoModel model)
         {
+            //TempStorage.SetObject(TempData, model);
             AppUser user = appDbContext.Users.Where(user => user.UserName == User.Identity.Name).FirstOrDefault();
             Order order = new() { OrderStatusId = 1, OrderTimeStart = DateTime.UtcNow, User = user};
             appDbContext.Orders.Add(order);

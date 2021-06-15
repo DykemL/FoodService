@@ -1,6 +1,7 @@
 ﻿using FoodService.Models;
 using FoodService.Models.DbEntities;
 using FoodService.Models.DtoModels;
+using FoodService.Models.ViewModels;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
@@ -77,6 +78,16 @@ namespace FoodService.Controllers
         public IActionResult AccessDenied()
         {
             return View();
+        }
+        [HttpGet]
+        public IActionResult Payment(string amount = null)
+        {
+            PaymentViewModel model = new();
+            if (amount == null)
+                model.Amount = 0;
+            else
+                model.Amount = int.Parse(amount);
+            return View(model);
         }
         public async Task<IActionResult> Logout()
         {
