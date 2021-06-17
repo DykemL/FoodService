@@ -1,0 +1,51 @@
+﻿@model FoodService.Models.DtoModels.CardPaymentDtoModel
+@{
+    ViewBag.Title = "Оплата";
+}
+
+@if (ViewData.ModelState.ErrorCount > 0)
+{
+    @Html.ValidationSummary(false, "", new { @class = "alert alert-danger" })
+}
+
+<div class="container">
+    <div class="row d-flex justify-content-center">
+        <small class="text-secondary">(Демонстрационная версия, данные карты можно оставить пустыми)</small>
+        <div class="form-group col-lg-4 col-6">
+            <form asp-controller="Account" asp-action="Pay" method="post">
+                <h4 class="mb-4 font-weight-bolder">Оплата</h4>
+                <div class="form-group">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text"><i class="fa fa-credit-card"></i></div>
+                        </div>
+                        <input type="text" class="form-control" id="cardNumber" placeholder="Номер карты" name="CardNumber" asp-for="@Model.CardNumber">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-8">
+                        <input name="MonthYear" class="form-control" placeholder="MM / YY" asp-for="@Model.MonthYear">
+                    </div>
+                    <div class="col-4">
+                        <input name="Cvc" class="form-control" placeholder="CVC" asp-for="@Model.Cvc" />
+                    </div>
+                </div>
+                <label class="font-weight-bold" for="moneyToPay">Сумма</label>
+                <div class="row">
+                    <div class="input-group col-5">
+                        <input id="moneyToPay" class="form-control form-control-sm" type="text" name="MoneyAmount" value="@Model.MoneyAmount" asp-for="@Model.MoneyAmount" readonly />
+                        <div class="input-group-append">
+                            <div class="input-group-text"><i class="fa fa-credit-card"></i></div>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="btn btn-success mt-2" type="submit" href="#">Оплатить</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <link href="/css/account-payment.css" rel="stylesheet" />
+}

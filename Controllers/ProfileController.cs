@@ -9,6 +9,7 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace FoodService.Controllers
@@ -50,28 +51,58 @@ namespace FoodService.Controllers
         }
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> BuyProducts(ProductDtoModel model)
+        public IActionResult StartPaymentTransaction(ProductsDtoModel model)
         {
-            //TempStorage.SetObject(TempData, model);
+            for (int i = 0; i < model.ProductsCount.Length; i++)
+            {
+                if (model.ProductsCount[i] == "" || model.ProductsCount[i] == null)
+                    model.ProductsCount[i] = "1";
+                else if (!double.TryParse(model.ProductsCount[i], out _))
+                {
+                    MessageUtils.SetError(TempData, "Неправильный формат числа продукта");
+                    return RedirectToAction("Basket");
+                }
+            }
+            try
+            {
+                double[] prices = model.Prices.Select(price => double.Parse(price)).ToArray();
+            }
+            catch (Exception)
+            {
+                return NotFound();
+            }
+            TempStorage.RemoveObject(User.Identity.Name);
+            TempStorage.SetObject(User.Identity.Name, model);
+            return LocalRedirect($"~/Account/Pay?moneyAmount={model.CountTotalPrice()}");
+        }
+        [Authorize]
+        [HttpGet]
+        public async Task<IActionResult> BuyProducts()
+        {
+            ProductsDtoModel products = TempStorage.GetObject<ProductsDtoModel>(User.Identity.Name);
+            if (!products.isPaid)
+                return NotFound();
+
             AppUser user = appDbContext.Users.Where(user => user.UserName == User.Identity.Name).FirstOrDefault();
             Order order = new() { OrderStatusId = 1, OrderTimeStart = DateTime.UtcNow, User = user};
             appDbContext.Orders.Add(order);
-            for (int i = 0; i < model.ProductId.Length; i++)
+            for (int i = 0; i < products.ProductIds.Length; i++)
             {
-                if (!int.TryParse(model.ProductsCount[i], out int count))
+                if (!int.TryParse(products.ProductsCount[i], out int count))
                     count = 1;
-                ProductPack pack = new() { ProductId = int.Parse(model.ProductId[i]),
+                ProductPack pack = new() { ProductId = int.Parse(products.ProductIds[i]),
                     Count = count,
                     Order = order
                 };
                 appDbContext.ProductPacks.Add(pack);
             }
-
             appDbContext.Orders.Add(order);
             await appDbContext.SaveChangesAsync();
             HttpContext.Response.Cookies.Delete("productsBasketJson");
             HttpContext.Response.Cookies.Append("productsBasketJson", "");
-            return RedirectToAction("Basket");
+            MessageUtils.SetSuccessMessage(TempData, "Товары успешно заказаны!");
+            TempStorage.RemoveObject(User.Identity.Name);
+            return RedirectToAction("Orders");
         }
         public IActionResult Orders()
         {

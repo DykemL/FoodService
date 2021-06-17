@@ -39,12 +39,6 @@ namespace FoodService.Controllers
 
             return View(products.ToList());
         }
-
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-
         public IActionResult Product(string productId)
         {
             Product product = null;

@@ -1,9 +1,19 @@
 ﻿@model IEnumerable<FoodService.Models.DbEntities.Product>
 @{
     ViewData["Title"] = "Главная";
+    string error = FoodService.Utils.MessageUtils.PopError(TempData);
+    string successMessage = FoodService.Utils.MessageUtils.PopSuccessMessage(TempData);
+}
+@if (error != null)
+{
+    <div class="alert alert-danger">@error</div>
+}
+@if (successMessage != null)
+{
+    <div class="alert alert-success">@successMessage</div>
 }
 <div class="container">
-    <form asp-controller="Profile" asp-action="BuyProducts" method="post">
+    <form asp-controller="Profile" asp-action="StartPaymentTransaction" method="post">
         <div class="h4 mt-2">Корзина: </div>
         @if (Model.Count() == 0)
         {
@@ -25,15 +35,20 @@
                             <div class="product-description-sm scrollable" style="">@product.Description</div>
                             <div class="font-weight-bold mt-1">@product.Price&#8381</div>
                             <input name="ProductsCount" class="form-control form-control-sm" type="text" placeholder="Количество" />
-                            <button type="button" class="btn btn-add-to-basket mt-1" data-productId="@product.Id">
+                            <button type="button" class="btn btn-warning btn-add-to-basket mt-1" data-productId="@product.Id">
                                 <i class='fa fa-shopping-cart'></i>
-                                Добавить в корзину
+                                Удалить из корзины
                             </button>
                         </div>
-                        <input name="ProductId" id="hiddenProductId" class="d-none" value="@product.Id" type="text">
+                        <input name="ProductIds" id="hiddenProductId" class="d-none" value="@product.Id" type="text">
+                        <input id="hiddenProductPrice" name="Prices" class="d-none" value="@product.Price" />
                     </div>
                 }
             </div>
         }
     </form>
 </div>
+
+@section Scripts {
+    <script src="~/js/profile-basket.js"></script>
+} 

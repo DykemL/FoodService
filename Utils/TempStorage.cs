@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.ViewFeatures;
+﻿using FoodService.Models.DtoModels;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,18 +9,34 @@ namespace FoodService.Utils
 {
     public static class TempStorage
     {
-        private static string tempKey = "TempStorage";
-        public static void SetObject(ITempDataDictionary temp, object obj)
+        private static Dictionary<string, object> tempObjects = new();
+        public static void SetObject(string userName, object obj)
         {
-            temp[tempKey] = obj;
+            if (tempObjects.Count < 1000)
+                tempObjects.Add(userName, obj);
         }
-        public static T PopObject<T>(ITempDataDictionary temp)
+        public static T GetObject<T>(string userName)
         {
-            return (T)temp[tempKey];
+            return (T)tempObjects[userName];
         }
-        public static bool IsEmpty(ITempDataDictionary temp)
+        public static T PopObject<T>(string userName)
         {
-            return temp[tempKey] == null;
+            object tempTempObj = tempObjects[userName];
+            tempObjects.Remove(userName);
+            return (T)tempTempObj;
+        }
+        public static void RemoveObject(string userName)
+        {
+            try
+            {
+                tempObjects.Remove(userName);
+            }
+            catch (Exception)
+            {}
+        }
+        public static bool IsEmpty(string userName)
+        {
+            return !tempObjects.ContainsKey(userName);
         }
     }
 }

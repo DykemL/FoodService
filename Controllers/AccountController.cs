@@ -2,6 +2,7 @@
 using FoodService.Models.DbEntities;
 using FoodService.Models.DtoModels;
 using FoodService.Models.ViewModels;
+using FoodService.Utils;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
@@ -11,6 +12,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
+using System.Security.Cryptography;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace FoodService.Controllers
@@ -80,14 +83,36 @@ namespace FoodService.Controllers
             return View();
         }
         [HttpGet]
-        public IActionResult Payment(string amount = null)
+        public IActionResult Pay(string moneyAmount)
         {
-            PaymentViewModel model = new();
-            if (amount == null)
-                model.Amount = 0;
+            CardPaymentDtoModel model = new();
+            if (moneyAmount == null)
+                model.MoneyAmount = 0.ToString();
             else
-                model.Amount = int.Parse(amount);
+                model.MoneyAmount = moneyAmount;
             return View(model);
+        }
+        [HttpPost]
+        public IActionResult Pay(CardPaymentDtoModel model)
+        {
+            if (!double.TryParse(model.MoneyAmount, out var amount))
+            {
+                ModelState.AddModelError("doubleParseFailed", "Неверно введённая сумма");
+                return View(model);
+            }
+            ProductsDtoModel productsModel = TempStorage.GetObject<ProductsDtoModel>(User.Identity.Name);
+            if (productsModel == null)
+            {
+                ModelState.AddModelError("wrongUserName", "Расхождение в именах заказчика");
+                return View(model);
+            }
+            if (productsModel.CountTotalPrice() != amount)
+            {
+                ModelState.AddModelError("wrongMoneyAmount", "Неверная сумма оплаты");
+                return View(model);
+            }
+            productsModel.isPaid = true;
+            return Redirect($"/Profile/BuyProducts");
         }
         public async Task<IActionResult> Logout()
         {

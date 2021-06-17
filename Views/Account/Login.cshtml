@@ -6,7 +6,7 @@
 <div class="d-flex justify-content-center">
     <div class="col-lg-3">
         <div class="h4 mb-4">Вход</div>
-        @if (ViewData.ModelState.Count > 0)
+        @if (ViewData.ModelState.ErrorCount > 0)
         {
             @Html.ValidationSummary(false, "", new { @class = "alert alert-danger" })
         }

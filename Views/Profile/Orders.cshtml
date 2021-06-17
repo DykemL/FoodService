@@ -1,5 +1,18 @@
 ﻿@using FoodService.Utils
 @model IEnumerable<FoodService.Models.DbEntities.Order>
+@{ 
+    string error = FoodService.Utils.MessageUtils.PopError(TempData);
+    string successMessage = FoodService.Utils.MessageUtils.PopSuccessMessage(TempData);
+}
+@if (error != null)
+{
+    <div class="alert alert-danger">@error</div>
+}
+@if (successMessage != null)
+{
+    <div class="alert alert-success">@successMessage</div>
+}
+
 <div class="container mt-5">
     <h4>Заказы: </h4>
     <div>
@@ -12,7 +25,7 @@
             <div class="bg-gray mt-2 p-3">
                 <div>Дата: @order.OrderTimeStart.ToLocalTime().ToString() </div>
                 <div>
-                    Товары: 
+                    Товары:
                     <div>
                         @foreach (var pack in order.ProductPacks)
                         {
@@ -24,7 +37,7 @@
                     Статус: @order.OrderStatus.StatusLocale
                 </div>
                 @*<a class="btn btn-sm btn-primary" data-type="give_feedback" data-toggle="modal" data-target="#giveFeedbackModal"
-                   data-product-id="<?=$order['product_id']?>">Оставить отзыв</a>*@
+                    data-product-id="<?=$order['product_id']?>">Оставить отзыв</a>*@
             </div>
         }
     </div>
