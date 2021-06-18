@@ -172,4 +172,3 @@ D:\Repository\Visual Studio 2019\C#\.Net Core ASP\FoodService\obj\Debug\net5.0\R
 D:\Repository\Visual Studio 2019\C#\.Net Core ASP\FoodService\bin\Debug\net5.0\web.config
 D:\Repository\Visual Studio 2019\C#\.Net Core ASP\FoodService\obj\Debug\net5.0\FoodService.csprojAssemblyReference.cache
 D:\Repository\Visual Studio 2019\C#\.Net Core ASP\FoodService\obj\Debug\net5.0\Razor\Views\Account\Pay.cshtml.g.cs
-D:\Repository\Visual Studio 2019\C#\.Net Core ASP\FoodService\bin\Debug\net5.0\RestSharp.dll

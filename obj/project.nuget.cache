@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "Zp8U5X2OZPjjSfz4vtIugGhAEFmYAF60S0sBdUeJX4JcQ17VIsNebeIhcZdGYqz9FxTXLz6TVVBoIc5IIJxd3Q==",
+  "dgSpecHash": "VAxM/ME1feteNqEyvvXFtnVQGC4X08VGfUNXfXc5RuWT/WwpnRIv99kVXkGRLKbMBQwRR0OninzuLgK9ls6wVg==",
   "success": true,
   "projectFilePath": "D:\\Repository\\Visual Studio 2019\\C#\\.Net Core ASP\\FoodService\\FoodService.csproj",
   "expectedPackageFiles": [
@@ -86,7 +86,6 @@
     "C:\\Users\\Roman\\.nuget\\packages\\npgsql\\5.0.5\\npgsql.5.0.5.nupkg.sha512",
     "C:\\Users\\Roman\\.nuget\\packages\\npgsql.entityframeworkcore.postgresql\\5.0.6\\npgsql.entityframeworkcore.postgresql.5.0.6.nupkg.sha512",
     "C:\\Users\\Roman\\.nuget\\packages\\npgsql.entityframeworkcore.postgresql.design\\1.1.0\\npgsql.entityframeworkcore.postgresql.design.1.1.0.nupkg.sha512",
-    "C:\\Users\\Roman\\.nuget\\packages\\restsharp\\106.11.7\\restsharp.106.11.7.nupkg.sha512",
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\runtime.debian.8-x64.runtime.native.system.security.cryptography.openssl\\4.3.0\\runtime.debian.8-x64.runtime.native.system.security.cryptography.openssl.4.3.0.nupkg.sha512",
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\runtime.fedora.23-x64.runtime.native.system.security.cryptography.openssl\\4.3.0\\runtime.fedora.23-x64.runtime.native.system.security.cryptography.openssl.4.3.0.nupkg.sha512",
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\runtime.fedora.24-x64.runtime.native.system.security.cryptography.openssl\\4.3.0\\runtime.fedora.24-x64.runtime.native.system.security.cryptography.openssl.4.3.0.nupkg.sha512",
