@@ -69,11 +69,6 @@ namespace FoodService.Controllers
             return View(new Tuple<Product, bool>(product, isInBasket));
         }
 
-        public IActionResult AddUser()
-        {
-            return new OkResult();
-        }
-
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

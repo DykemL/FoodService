@@ -110,6 +110,7 @@ namespace FoodService.Controllers
                 .Include(o => o.OrderStatus)
                 .Include(o => o.User)
                 .Where(o => o.User.UserName == User.Identity.Name)
+                .OrderByDescending(o => o.OrderTimeStart)
                 .ToList();
             List<ProductPack> packs = appDbContext.ProductPacks
                 .Include(pack => pack.Order)
