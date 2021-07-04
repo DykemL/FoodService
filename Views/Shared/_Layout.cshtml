@@ -10,7 +10,7 @@
     @await RenderSectionAsync("Styles", required: false)
 </head>
 <body>
-    @if (User.Identity.IsAuthenticated)
+    @if (User.Identity!.IsAuthenticated)
     {
         <header>
             <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
@@ -85,7 +85,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2021 - FoodService</a>
+            &copy; 2021 - FoodService
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
