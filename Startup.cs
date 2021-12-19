@@ -31,7 +31,10 @@ namespace FoodService
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<AppDbContext>(options => options.UseNpgsql(Configuration.GetConnectionString("RemoteConnection")));
+            var connectionString = Environment.GetEnvironmentVariable("DatabaseConnectionString") 
+                                   ?? Configuration.GetConnectionString("RemoteConnection")
+                                   ?? Configuration.GetConnectionString("DefaultConnection");
+            services.AddDbContext<AppDbContext>(options => options.UseNpgsql(connectionString));
 
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
             {
