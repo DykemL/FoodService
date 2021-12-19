@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace FoodService.Models.DtoModels
 {
-    public class ProductsDtoModel
+    public class ProductsDto
     {
         public string[] ProductIds { get; set; }
         public string[] ProductsCount { get; set; }

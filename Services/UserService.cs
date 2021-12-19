@@ -1,10 +1,7 @@
-﻿using FoodService.Models;
-using FoodService.Models.DbEntities;
-using Microsoft.AspNetCore.Identity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using FoodService.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace FoodService.Services
 {
@@ -13,6 +10,7 @@ namespace FoodService.Services
         private readonly UserManager<TUser> userManager;
         private readonly SignInManager<TUser> signInManager;
         private readonly AppDbContext appDbContext;
+
         public UserService(UserManager<TUser> userManager, SignInManager<TUser> signInManager, AppDbContext appDbContext)
         {
             this.userManager = userManager;

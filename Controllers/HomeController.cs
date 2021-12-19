@@ -18,12 +18,10 @@ namespace FoodService.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly UserManager<AppUser> userManager;
         private readonly AppDbContext appDbContext;
 
-        public HomeController(UserManager<AppUser> userManager, AppDbContext appDbContext)
+        public HomeController(AppDbContext appDbContext)
         {
-            this.userManager = userManager;
             this.appDbContext = appDbContext;
         }
 

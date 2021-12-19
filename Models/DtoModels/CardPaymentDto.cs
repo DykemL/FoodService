@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace FoodService.Models.DtoModels
 {
-    public class CardPaymentDtoModel
+    public class CardPaymentDto
     {
         public string CardNumber { get; set; }
         public string MonthYear { get; set; }

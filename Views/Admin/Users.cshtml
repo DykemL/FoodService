@@ -1,11 +1,11 @@
 ﻿@using FoodService.Utils
-@model FoodService.Models.ViewModels.UsersViewModel
+@model FoodService.Models.DtoModels.UsersDto
 @{
     Layout = "_AdminLayout";
     ViewBag.Title = "Пользователи";
     int counter = 1;
 
-    string error = FoodService.Utils.MessageUtils.PopError(TempData);
+    string error = MessageUtils.PopError(TempData);
 }
 @if (error != null)
 {

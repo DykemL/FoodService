@@ -51,7 +51,7 @@ namespace FoodService.Controllers
         }
         [Authorize]
         [HttpPost]
-        public IActionResult StartPaymentTransaction(ProductsDtoModel model)
+        public IActionResult StartPaymentTransaction(ProductsDto model)
         {
             for (int i = 0; i < model.ProductsCount.Length; i++)
             {
@@ -79,7 +79,7 @@ namespace FoodService.Controllers
         [HttpGet]
         public async Task<IActionResult> BuyProducts()
         {
-            ProductsDtoModel products = TempStorage.GetObject<ProductsDtoModel>(User.Identity.Name);
+            ProductsDto products = TempStorage.GetObject<ProductsDto>(User.Identity.Name);
             if (!products.isPaid)
                 return NotFound();
 
